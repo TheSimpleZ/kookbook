@@ -1,12 +1,6 @@
-<style>
-  .navbar-item {
-    color: #444;
-  }
-</style>
-
 <nav class="white" role="navigation">
   <div class="nav-wrapper container">
-    <a id="logo-container" href="/" class="brand-logo light-green-text">Svelte & Firebase</a>
+    <a id="logo-container" href="/" class="brand-logo light-green-text">Kookbook</a>
     <ul class="right hide-on-med-and-down">
       <li>
         <a href="/" class="navbar-item active">Home</a>
@@ -35,3 +29,9 @@
     </a>
   </div>
 </nav>
+
+<style>
+  .navbar-item {
+    color: #444;
+  }
+</style>

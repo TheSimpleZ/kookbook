@@ -1,12 +1,12 @@
 <script>
   import { Navigate } from 'svelte-router-spa'
 
-  export let item = {}
+  export let book = {}
 </script>
 
 <li class="sidebar-item">
-  <Navigate to={item.to}>
-     {item.title}
-    <i class="material-icons left">{item.icon}</i>
+  <Navigate to={book.id}>
+    {book.name}
+    <i class="material-icons left">book</i>
   </Navigate>
 </li>

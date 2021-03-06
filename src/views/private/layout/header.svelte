@@ -17,20 +17,11 @@
   }
 </script>
 
-<style>
-  #settingsMenu {
-    top: 64px !important;
-  }
-  .brand-logo {
-    padding-left: 1rem;
-  }
-</style>
-
 <nav class="teal lighten-1">
   <div class="nav-wrapper">
-    <a href="/admin/" class="brand-logo">
-      Svelte & Firebase
-      <i class="material-icons left">web</i>
+    <a href="/" class="brand-logo">
+      Kookbook
+      <i class="material-icons left">menu_book</i>
     </a>
     <a href="/" data-target="mobile-demo" class="sidenav-trigger">
       <i class="material-icons">menu</i>
@@ -42,7 +33,6 @@
           Settings
         </a>
         <ul id="settingsMenu" class="dropdown-content">
-
           <li>
             <a href="/" on:click={logoutUser}>
               Log out
@@ -80,3 +70,12 @@
     </a>
   </li>
 </ul>
+
+<style>
+  #settingsMenu {
+    top: 64px !important;
+  }
+  .brand-logo {
+    padding-left: 1rem;
+  }
+</style>
