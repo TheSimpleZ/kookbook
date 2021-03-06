@@ -1,7 +1,7 @@
 <script>
   import { navigateTo } from 'svelte-router-spa'
   import validate from 'validate.js'
-  import { Auth, Functions } from '../../../config/firebase'
+  import { Auth } from '../../../config/firebase'
 
   import TextInput from '../../components/forms/text_input.svelte'
   import PasswordInput from '../../components/forms/password_input.svelte'
@@ -79,22 +79,22 @@
     if (validateLoginForm()) {
       const { user } = await Auth.createUserWithEmailAndPassword(email, password)
       if (user) {
-        const createCompany = Functions.httpsCallable('createCompany')
-        createCompany({ companyName: name })
-          .then(() => {
-            notificationMessage.set({
-              message: 'Your account was created successfully. Please log in',
-              type: 'success-toast'
-            })
-            // We logout the user to generate a new jwt with right token info
-            Auth.signOut().then(() => {
-              navigateTo('/login')
-            })
-          })
-          .catch(error => {
-            notificationMessage.set({ message: error.message, type: 'danger-toast' })
-            console.log(error)
-          })
+        // const createCompany = Functions.httpsCallable('createCompany')
+        // createCompany({ companyName: name })
+        //   .then(() => {
+        //     notificationMessage.set({
+        //       message: 'Your account was created successfully. Please log in',
+        //       type: 'success-toast'
+        //     })
+        //     // We logout the user to generate a new jwt with right token info
+        //     Auth.signOut().then(() => {
+        //       navigateTo('/login')
+        //     })
+        //   })
+        //   .catch(error => {
+        //     notificationMessage.set({ message: error.message, type: 'danger-toast' })
+        //     console.log(error)
+        //   })
       }
     } else {
       disableAction = false

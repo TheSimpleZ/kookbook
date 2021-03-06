@@ -1,7 +1,7 @@
 <script>
   import { createEventDispatcher } from 'svelte'
   import validate from 'validate.js'
-  import { Auth, Functions } from '../../../config/firebase'
+  import { Auth } from '../../../config/firebase'
   import { FirebaseResults } from '../../../middleware/database'
   import { Employees } from '../../../middleware/database/employees'
   import { Teams } from '../../../middleware/database/teams'

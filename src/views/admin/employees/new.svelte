@@ -1,5 +1,4 @@
 <script>
-  import { Functions } from '../../../config/firebase'
   import { navigateTo } from 'svelte-router-spa'
   import { Employees } from '../../../middleware/database/employees'
   import { notificationMessage } from '../../../stores/notification_message.js'
@@ -13,22 +12,22 @@
     employee.createdBy = $currentUser.id
     employee.companyId = $currentUser.companyId
 
-    const createEmployee = Functions.httpsCallable('createEmployee')
-    createEmployee(employee)
-      .then(() => {
-        notificationMessage.set({
-          message: 'Employee added successfully.',
-          type: 'success-toast'
-        })
+    // const createEmployee = Functions.httpsCallable('createEmployee')
+    // createEmployee(employee)
+    //   .then(() => {
+    //     notificationMessage.set({
+    //       message: 'Employee added successfully.',
+    //       type: 'success-toast'
+    //     })
 
-        navigateTo('/admin/employees')
-      })
-      .catch(error => {
-        notificationMessage.set({
-          message: error.message,
-          type: 'error-toast'
-        })
-      })
+    //     navigateTo('/admin/employees')
+    //   })
+    //   .catch(error => {
+    //     notificationMessage.set({
+    //       message: error.message,
+    //       type: 'error-toast'
+    //     })
+    //   })
   }
   const goHome = () => {
     navigateTo('/admin/employees')
