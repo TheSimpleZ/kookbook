@@ -17,6 +17,7 @@
     "build": "rollup -c",
     "autobuild": "rollup -c -w",
     "dev": "run-p start:dev autobuild",
+    "ci": "yarn install --frozen-lockfile && yarn build",
     "start": "sirv public",
     "start:dev": "sirv public -s --dev",
     "deploy": "yarn build && firebase deploy"
