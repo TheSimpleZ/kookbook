@@ -11,9 +11,9 @@
     M.Dropdown.init(dropdownSettings, {})
   })
 
-  const logoutUser = () => {
-    Auth.signOut()
-    navigateTo('/login')
+  const logoutUser = async () => {
+    await Auth.signOut()
+    navigateTo('login')
   }
 </script>
 

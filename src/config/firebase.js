@@ -3,7 +3,6 @@ import 'firebase/firebase-firestore'
 import 'firebase/firebase-auth'
 import 'firebase/firebase-storage'
 import { firebaseConfig } from './settings'
-import { currentUser } from "../stores/current_user";
 
 firebase.initializeApp(firebaseConfig)
 
