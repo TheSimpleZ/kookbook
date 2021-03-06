@@ -598,6 +598,11 @@ define-properties@^1.1.3:
   dependencies:
     object-keys "^1.0.12"
 
+dialog-polyfill@^0.4.7:
+  version "0.4.10"
+  resolved "https://registry.yarnpkg.com/dialog-polyfill/-/dialog-polyfill-0.4.10.tgz#c4ea68a0deed4abb59a6a2a025c548b278cd532e"
+  integrity sha512-j5yGMkP8T00UFgyO+78OxiN5vC5dzRQF3BEio+LhNvDbyfxWBsi3sfPArDm54VloaJwy2hm3erEiDWqHRC8rzw==
+
 dom-storage@2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/dom-storage/-/dom-storage-2.1.0.tgz#00fb868bc9201357ea243c7bcfd3304c1e34ea39"
@@ -737,6 +742,14 @@ firebase@^7.0.0:
     "@firebase/remote-config" "0.1.28"
     "@firebase/storage" "0.3.43"
     "@firebase/util" "0.3.2"
+
+firebaseui@^4.7.3:
+  version "4.7.3"
+  resolved "https://registry.yarnpkg.com/firebaseui/-/firebaseui-4.7.3.tgz#9f7601610a8e5822ad76a33c86b104a459ac4f27"
+  integrity sha512-KKeZQS2fO2SrZFIsEmG6GrTm/+Na8Vk+OM9wnNgP8FtUw6h4S5oCPtebBREr9ETlDFvIK88gaHvp5bvF96yogA==
+  dependencies:
+    dialog-polyfill "^0.4.7"
+    material-design-lite "^1.2.0"
 
 fs-extra@^9.0.0:
   version "9.0.1"
@@ -1078,6 +1091,11 @@ magic-string@^0.25.2:
   integrity sha512-4CrMT5DOHTDk4HYDlzmwu4FVCcIYI8gauveasrdCu2IKIFOJ3f0v/8MDGJCDL9oD2ppz/Av1b0Nj345H9M+XIA==
   dependencies:
     sourcemap-codec "^1.4.4"
+
+material-design-lite@^1.2.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/material-design-lite/-/material-design-lite-1.3.0.tgz#d004ce3fee99a1eeb74a78b8a325134a5f1171d3"
+  integrity sha1-0ATOP+6Zoe63Sni4oyUTSl8RcdM=
 
 materialize-css@^1.0.0:
   version "1.0.0"
@@ -1583,10 +1601,20 @@ svelte-router-spa@^5.0.0:
   dependencies:
     url-params-parser "^1.0.2"
 
+svelte-routing@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/svelte-routing/-/svelte-routing-1.5.0.tgz#a518cf67d8c09dd30a04cf6f9473ce5612fd4c8b"
+  integrity sha512-4ftcSO2x5kzCUWQKm9Td6/C+t7lRjMEo72utRO0liS/aWZuRwAXOBl3y+hWZw8tV+DTGElqaAAyi44AuWXcVBg==
+
 svelte@^3.0.0:
   version "3.29.0"
   resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.29.0.tgz#80acac4254341ad8f3301e5ef03f4127ea967d96"
   integrity sha512-f+A65eyOQ5ujETLy+igNXtlr6AEjAQLYd1yJE1VwNiXMQO5Z/Vmiy3rL+zblV/9jd7rtTTWqO1IcuXsP2Qv0OA==
+
+sveltefire@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/sveltefire/-/sveltefire-0.1.5.tgz#0bbfb74b3e991933016805dc9206f686c868fec1"
+  integrity sha512-DiIt6kl6wlmsQO4sOyP0xxCTJ14miXJoiFJXurnqHMuZsX48CVqFk3r86QaPZxer/VqJggvBEIT9ZmvalEFdJQ==
 
 terser@^5.0.0:
   version "5.3.5"

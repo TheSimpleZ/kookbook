@@ -18,14 +18,17 @@
     "autobuild": "rollup -c -w",
     "dev": "run-p start:dev autobuild",
     "ci": "yarn install --frozen-lockfile && yarn build",
-    "start": "sirv public",
+    "start": "sirv public -s",
     "start:dev": "sirv public -s --dev",
     "deploy": "yarn build && firebase deploy"
   },
   "dependencies": {
     "firebase": "^7.0.0",
+    "firebaseui": "^4.7.3",
     "materialize-css": "^1.0.0",
     "svelte-router-spa": "^5.0.0",
+    "svelte-routing": "^1.5.0",
+    "sveltefire": "^0.1.5",
     "validate.js": "^0.13.0"
   }
 }

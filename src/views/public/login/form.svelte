@@ -1,82 +1,35 @@
 <script>
-  import { navigateTo } from 'svelte-router-spa'
-  import validate from 'validate.js'
-  import PasswordInput from '../../components/forms/password_input.svelte'
-  import EmailInput from '../../components/forms/email_input.svelte'
-  import FormButtons from '../../components/forms/buttons.svelte'
-  import { notificationMessage } from '../../../stores/notification_message.js'
-  import { Auth } from '../../../config/firebase'
+  import { Auth, firebase } from "../../../config/firebase";
+  import * as firebaseui from 'firebaseui'
+  import 'firebaseui/dist/firebaseui.css'
+  import { onMount } from 'svelte';
 
-  const loginConstraints = {
-    email: {
-      presence: true,
-      email: true
-    },
-    password: {
-      presence: true,
-      length: {
-        minimum: 6,
-        message: 'must be at least 6 characters'
-      }
-    }
-  }
-
-  let email = ''
-  let emailError = false
-  let emailMessage = ''
-  let passwordMessage = ''
-  let password = ''
-  let passwordError = false
-  let disableAction = false
-
-  const resetErrorInfo = () => {
-    let emailError = false
-    let emailMessage = ''
-    let passwordMessage = ''
-    let passwordError = false
-  }
-
-  const validateLoginForm = () => {
-    resetErrorInfo()
-    const validationResult = validate({ email, password }, loginConstraints)
-    if (!validationResult) {
-      return true
-    } else {
-      if (validationResult.email && validationResult.email.length > 0) {
-        emailMessage = validationResult.email[0]
-        emailError = true
-      }
-      if (validationResult.password && validationResult.password.length > 0) {
-        passwordMessage = validationResult.password[0]
-        passwordError = true
-      }
+  // FirebaseUI config.
+  var uiConfig = { 
+      callbacks: {
+        // User successfully signed in.
+        // Return type determines whether we continue the redirect automatically
+        // or whether we leave that to developer to handle.
+        signInSuccessWithAuthResult: () => true,
+        uiShown: () => {},
+      },
+      // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
+      signInFlow: 'popup',
+      signInSuccessUrl: '/admin',
+      signInOptions: [
+        // Leave the lines as is for the providers you want to offer your users.
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
+      ],
     }
 
-    return false
-  }
+  // Initialize the FirebaseUI Widget using Firebase.
+  var ui = new firebaseui.auth.AuthUI(Auth)
 
-  const signInUser = () => {
-    disableAction = true
-    validateLoginForm()
-    if (validateLoginForm()) {
-      Auth.signInWithEmailAndPassword(email, password)
-        .then(() => {
-          notificationMessage.set({ message: 'Welcome back!', type: 'success-toast' })
-          disableAction = false
-          navigateTo('admin')
-        })
-        .catch(error => {
-          notificationMessage.set({ message: error.message, type: 'danger-toast' })
-          disableAction = false
-        })
-    } else {
-      disableAction = false
-    }
-  }
+    onMount(() => {
+      // The start method will wait until the DOM is loaded.
+      ui.start('#firebaseui-auth-container', uiConfig)
+    })
 </script>
 
-<form ref="form" on:submit|preventDefault={signInUser}>
-  <EmailInput bind:value={email} error={emailError} isFocused={true} errorMessage={emailMessage} />
-  <PasswordInput bind:value={password} error={passwordError} errorMessage={passwordMessage} />
-  <FormButtons cancelButton={false} submitText="Login" isLoading={disableAction} />
-</form>
+<div id="firebaseui-auth-container" />

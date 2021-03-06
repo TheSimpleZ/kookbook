@@ -1,13 +1,15 @@
 import { writable } from "svelte/store";
 
-const userInfo = writable({});
+const init = JSON.parse(localStorage.getItem("currentUser")) || null
+const userInfo = writable(init);
+userInfo.subscribe(val => localStorage.setItem("currentUser", JSON.stringify(val)));
 
 const setUser = user => {
   userInfo.set(user);
 };
 
 const removeUser = () => {
-  userInfo.set({});
+  userInfo.set(null);
 };
 
 const currentUser = {

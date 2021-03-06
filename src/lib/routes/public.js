@@ -8,6 +8,7 @@ const publicRoutes = [
   {
     name: '/',
     component: PublicIndex,
+    layout: PublicLayout
   },
   { name: 'login', component: Login, layout: PublicLayout },
   { name: 'signup', component: Signup, layout: PublicLayout },
