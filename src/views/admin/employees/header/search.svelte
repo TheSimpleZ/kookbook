@@ -27,12 +27,12 @@
   </div>
   <div class="col s12 m3">
     {#if active}
-      <a href="#" on:click={toggleActive} class="btn-flat yellow lighten-1 black-text secondary-content new-action">
+      <a href="/" on:click={toggleActive} class="btn-flat yellow lighten-1 black-text secondary-content new-action">
         Show inactive
         <i class="material-icons left">archive</i>
       </a>
     {:else}
-      <a href="#" on:click={toggleActive} class="btn-flat green accent-1 black-text secondary-content new-action">
+      <a href="/" on:click={toggleActive} class="btn-flat green accent-1 black-text secondary-content new-action">
         Show active
         <i class="material-icons left">unarchive</i>
       </a>

@@ -33,19 +33,19 @@
       Svelte & Firebase
       <i class="material-icons left">web</i>
     </a>
-    <a href="#" data-target="mobile-demo" class="sidenav-trigger">
+    <a href="/" data-target="mobile-demo" class="sidenav-trigger">
       <i class="material-icons">menu</i>
     </a>
     <ul class="right hide-on-med-and-down">
       <li>
-        <a href="#" class="dropdown-trigger" id="dropdownSettings" data-target="settingsMenu">
+        <a href="/" class="dropdown-trigger" id="dropdownSettings" data-target="settingsMenu">
           <i class="material-icons left">settings</i>
           Settings
         </a>
         <ul id="settingsMenu" class="dropdown-content">
 
           <li>
-            <a href="#" on:click={logoutUser}>
+            <a href="/" on:click={logoutUser}>
               Log out
               <i class="material-icons left">exit_to_app</i>
             </a>
@@ -75,7 +75,7 @@
     </Navigate>
   </li>
   <li>
-    <a href="#" on:click={logoutUser}>
+    <a href="/" on:click={logoutUser}>
       Log out
       <i class="material-icons left">exit_to_app</i>
     </a>

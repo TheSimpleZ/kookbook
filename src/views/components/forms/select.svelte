@@ -1,7 +1,7 @@
 <script>
   import { afterUpdate } from 'svelte'
 
-  export let inputName = 'select'
+  export const inputName = 'select'
   export let id = 'selectElement'
   export let label = 'Select'
   export let value = ''

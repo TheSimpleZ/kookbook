@@ -59,7 +59,7 @@
       <h4>Teams</h4>
     </div>
     <div class="col s3">
-      <a href="#" class="btn light-blue darken-1 secondary-content new-team" on:click={addTeam}>
+      <a href="/" class="btn light-blue darken-1 secondary-content new-team" on:click={addTeam}>
         New team
         <i class="material-icons left">add</i>
       </a>

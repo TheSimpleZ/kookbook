@@ -5,7 +5,7 @@
   export let value = ''
   export let icon = 'lock'
   export let error = false
-  export let isFocused = false
+  export const isFocused = false
   export let errorMessage = 'Por favor, añade una contraseña'
   export let helpText = ''
 </script>
@@ -21,7 +21,7 @@
     name={inputName}
     {id}
     class:invalid={error}
-    autofocus={isFocused}
+    
     on:blur />
   <label for={id}>{label}</label>
   <span class="helper-text" data-error={errorMessage}>{helpText}</span>

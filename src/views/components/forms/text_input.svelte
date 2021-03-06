@@ -7,7 +7,7 @@
   export let value = ''
   export let icon = null
   export let error = false
-  export let isFocused = false
+  export const isFocused = false
   export let errorMessage = 'Please enter a value.'
 
   afterUpdate(() => {
@@ -26,7 +26,7 @@
     name={inputName}
     {id}
     class:invalid={error}
-    autofocus={isFocused}
+    
     on:blur />
   <label for={id}>{label}</label>
   <span class="helper-text" data-error={errorMessage} data-success="right" />

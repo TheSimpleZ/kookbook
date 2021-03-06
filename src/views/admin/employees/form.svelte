@@ -14,7 +14,7 @@
   import { currentUser } from '../../../stores/current_user'
 
   export let employee = { name: '', email: '', password: '', teamId: '' }
-  export let showModal = false
+  export const showModal = false
   let loading = true
 
   const dispatch = createEventDispatcher()

@@ -46,7 +46,7 @@
   <td>{teamName}</td>
   <td>{employee.role}</td>
   <td>
-    <a href="#" on:click={removeEmployee} class="secondary-content" title={statusTitle()}>
+    <a href="/" on:click={removeEmployee} class="secondary-content" title={statusTitle()}>
       <i class="material-icons">{statusIcon()}</i>
     </a>
     <a href={`/admin/employees/edit/${employee.id}`} class="secondary-content edit-icon" title="Edit {employee.name}">

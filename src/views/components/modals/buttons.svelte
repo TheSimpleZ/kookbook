@@ -1,10 +1,10 @@
 <script>
   export let cancelText = 'No'
   export let cancelButton = true
-  export let buttonColor = 'teal'
+  export const buttonColor = 'teal'
   export let submitText = 'Yes'
   export let isLoading = false
-  export let confirmInfo = {}
+  export const confirmInfo = {}
   import { createEventDispatcher } from 'svelte'
 
   const dispatch = createEventDispatcher()

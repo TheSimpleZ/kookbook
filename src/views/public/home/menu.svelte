@@ -30,7 +30,7 @@
         <a class="navbar-item" href="/signup">Signup</a>
       </li>
     </ul>
-    <a href="#" data-target="nav-mobile" class="sidenav-trigger">
+    <a href="/" data-target="nav-mobile" class="sidenav-trigger">
       <i class="material-icons">menu</i>
     </a>
   </div>
