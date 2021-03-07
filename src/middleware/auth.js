@@ -1,12 +1,12 @@
-import { currentUser } from '../stores/current_user'
+import { current_user } from '../stores/current_user'
 import { Auth } from '../config/firebase'
-Auth.onAuthStateChanged((user) =>
+Auth.on_auth_state_changed((user) =>
   user
-    ? currentUser.set({
+    ? current_user.set({
         email: user.email,
         id: user.uid,
-        phoneNumber: user.phoneNumber,
-        photoUrl: user.photoUrl,
+        phone_number: user.phone_number,
+        photo_url: user.photo_url,
       })
-    : currentUser.set(null)
+    : current_user.set(null)
 )

@@ -1,8 +1,8 @@
 import { writable } from 'svelte/store'
 
-const defaultValue = null
+const default_value = null
 
-const initialValue = JSON.parse(localStorage.getItem('currentUser')) || defaultValue
-export const currentUser = writable(initialValue)
+const initial_value = JSON.parse(localStorage.getItem('currentUser')) || default_value
+export const current_user = writable(initial_value)
 
-currentUser.subscribe((val) => localStorage.setItem('currentUser', JSON.stringify(val)))
+current_user.subscribe((val) => localStorage.setItem('currentUser', JSON.stringify(val)))

@@ -14,7 +14,7 @@
   }
 </script>
 
-<div class="dark bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+<div class="dark bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-300 min-h-screen">
   <Header />
   <main>
     <slot />
