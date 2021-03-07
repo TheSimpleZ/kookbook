@@ -1,8 +1,6 @@
 <script>
-  import { Router } from 'svelte-router-spa'
-  import { routes } from './routes'
-  import '../node_modules/materialize-css/dist/css/materialize.min.css'
-  import '../node_modules/materialize-css/dist/js/materialize.min.js'
+  import { Router } from '@roxi/routify'
+  import { routes } from '../.routify/routes'
   import { FirebaseApp } from 'sveltefire'
   import { firebase } from './config/firebase'
 </script>
@@ -10,3 +8,9 @@
 <FirebaseApp {firebase}>
   <Router {routes} />
 </FirebaseApp>
+
+<style global lang="postcss">
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
+</style>

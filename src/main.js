@@ -1,5 +1,5 @@
 import App from './App.svelte'
-import './middleware/users/auth'
+import './middleware/auth'
 
 const app = new App({
   target: document.body,

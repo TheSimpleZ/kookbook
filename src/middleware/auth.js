@@ -1,5 +1,5 @@
-import { currentUser } from '../../stores/current_user'
-import { Auth } from '../../config/firebase'
+import { currentUser } from '../stores/current_user'
+import { Auth } from '../config/firebase'
 Auth.onAuthStateChanged((user) =>
   user
     ? currentUser.set({

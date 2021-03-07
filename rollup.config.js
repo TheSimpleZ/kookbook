@@ -4,6 +4,7 @@ import commonjs from 'rollup-plugin-commonjs'
 import livereload from 'rollup-plugin-livereload'
 import { terser } from 'rollup-plugin-terser'
 import css from 'rollup-plugin-css-only'
+import sveltePreprocess from 'svelte-preprocess'
 
 const production = !process.env.ROLLUP_WATCH
 
@@ -11,9 +12,9 @@ export default {
   input: 'src/main.js',
   output: {
     sourcemap: true,
-    format: 'iife',
+    format: 'esm',
     name: 'app',
-    file: 'public/bundle.js'
+    dir: 'public/build',
   },
   plugins: [
     svelte({
@@ -21,9 +22,13 @@ export default {
       dev: !production,
       // we'll extract any component CSS out into
       // a separate file — better for performance
-      css: css => {
+      css: (css) => {
         css.write('bundle.css')
-      }
+      },
+      preprocess: sveltePreprocess({
+        sourceMap: !production,
+        postcss: true,
+      }),
     }),
     css({ output: 'public/plugins.css' }),
     // If you have external dependencies installed from
@@ -40,9 +45,9 @@ export default {
 
     // If we're building for production (npm run build
     // instead of npm run dev), minify
-    production && terser()
+    production && terser(),
   ],
   watch: {
-    clearScreen: false
-  }
+    clearScreen: false,
+  },
 }
