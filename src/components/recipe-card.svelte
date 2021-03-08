@@ -27,9 +27,7 @@
     </div>
     <p class="text-xs text-gray-500">
       <Doc path={`users/${ownerId}`} let:data={owner} once>
-        <a href="#" class="hover:underline hover:text-blue-500">{owner.displayName}</a> • {timeAgo.format(
-          new Date(recipe.updatedAt)
-        )}
+        {owner.displayName} • {timeAgo.format(new Date(recipe.updatedAt))}
       </Doc>
     </p>
   </div>
