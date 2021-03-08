@@ -2,6 +2,7 @@
   import { Auth, firebase } from '../config/firebase'
   import * as firebaseui from 'firebaseui'
   import { onMount } from 'svelte'
+  import { FirebaseApp, User, Doc, Collection } from 'sveltefire'
 
   // FirebaseUI config.
   var uiConfig = {

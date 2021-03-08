@@ -5,7 +5,7 @@ module.exports = {
     es2021: true,
   },
   extends: ['eslint:recommended', 'prettier'],
-  plugins: ['svelte3', 'snakecasejs'],
+  plugins: ['svelte3'],
   overrides: [
     {
       files: ['*.svelte'],
@@ -16,9 +16,4 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  settings: {
-    'snakecasejs/filter': ['ClassDeclaration', 'NewExpression'],
-    'snakecasejs/whitelist': ['externalPath', 'setNumber'],
-  },
-  rules: { 'snakecasejs/snakecasejs': 'error' },
 }

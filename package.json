@@ -3,6 +3,7 @@
   "version": "0.5.0",
   "devDependencies": {
     "@4mende2/svelte-heroicons": "^1.1.7",
+    "@rollup/plugin-json": "^4.1.0",
     "@roxi/routify": "^2.13.1",
     "autoprefixer": "^10.2.5",
     "eslint": "^7.21.0",
@@ -40,6 +41,7 @@
   "dependencies": {
     "firebase": "^7.0.0",
     "firebaseui": "^4.7.3",
+    "javascript-time-ago": "^2.3.4",
     "sveltefire": "^0.1.5",
     "validate.js": "^0.13.0"
   }

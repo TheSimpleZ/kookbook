@@ -14,12 +14,5 @@ module.exports = {
     },
     enabled: !process.env.ROLLUP_WATCH, // disable purge in dev
   },
-  darkMode: 'media', // or 'media' or 'class'
-  theme: {
-    extend: {},
-  },
-  variants: {
-    extend: {},
-  },
-  plugins: [],
+  darkMode: 'class', // or 'media' or 'class'
 }
