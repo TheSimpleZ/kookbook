@@ -6,18 +6,21 @@
   import RecipeTable from '../components/recipe-table.svelte'
   import Header from '../components/header.svelte'
 
-  function addNewRecipe(ref, userId) {
+  function addNewRecipe(recipes, ref, userId) {
     const currentDateTime = new Date().toISOString()
+    const baseName = 'New recipe'
+    const name = baseName + recipes.filter((r) => r.name.startsWith(baseName)).length
+
     ref.add({
       createdAt: currentDateTime,
       updatedAt: currentDateTime,
       roles: {
         [userId]: 'owner',
       },
-      name: 'New recipe',
+      name,
       contents: {
         ops: [
-          { insert: 'New recipe' },
+          { insert: name },
           {
             attributes: {
               header: 1,
@@ -36,7 +39,8 @@
   <Doc path={`users/${user.uid}`} log on:ref={(e) => e.detail.ref.set({ displayName: user.displayName })} once />
   <Collection path="recipes" let:data={recipes} let:ref={recipesRef} log>
     <Header>
-      <button on:click={addNewRecipe(recipesRef, user.uid)}><Icon icon={plus} class="icon" />New recipe</button>
+      <button on:click={addNewRecipe(recipes, recipesRef, user.uid)}><Icon icon={plus} class="icon" />New recipe</button
+      >
     </Header>
 
     <RecipeTable {recipes} />
