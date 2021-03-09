@@ -2,9 +2,7 @@
   import { Auth, firebase } from '../config/firebase'
   import * as firebaseui from 'firebaseui'
   import { onMount } from 'svelte'
-  import { FirebaseApp, User, Doc, Collection } from 'sveltefire'
 
-  // FirebaseUI config.
   var uiConfig = {
     // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
     signInFlow: 'popup',

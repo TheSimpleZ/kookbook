@@ -5,7 +5,7 @@ module.exports = {
     es2021: true,
   },
   extends: ['eslint:recommended', 'prettier'],
-  plugins: ['svelte3'],
+  plugins: ['svelte3', 'unused-imports'],
   overrides: [
     {
       files: ['*.svelte'],
@@ -15,5 +15,13 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 12,
     sourceType: 'module',
+  },
+  rules: {
+    'no-unused-vars': 'off', // or "@typescript-eslint/no-unused-vars": "off",
+    'unused-imports/no-unused-imports': 'error',
+    'unused-imports/no-unused-vars': [
+      'warn',
+      { vars: 'all', varsIgnorePattern: '^_', args: 'after-used', argsIgnorePattern: '^_' },
+    ],
   },
 }

@@ -14,8 +14,9 @@
   @tailwind components;
   @tailwind utilities;
 
-  html,
-  body {
-    height: 100%;
+  @layer components {
+    .icon {
+      @apply m-2 h-6 w-6 inline-block;
+    }
   }
 </style>

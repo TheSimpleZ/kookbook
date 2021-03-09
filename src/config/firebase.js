@@ -4,7 +4,6 @@ import 'firebase/firebase-auth'
 import 'firebase/firebase-storage'
 import { firebase_config } from './settings'
 
-// eslint-disable-next-line snakecasejs/snakecasejs
 firebase.initializeApp(firebase_config)
 
 const Firestore = firebase.firestore()

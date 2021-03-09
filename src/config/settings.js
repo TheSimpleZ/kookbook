@@ -1,4 +1,3 @@
-/* eslint-disable snakecasejs/snakecasejs */
 const firebase_config = {
   apiKey: 'AIzaSyCsOkutboGIIbyaINBNHmcwVHQnHjCXUGU',
   authDomain: 'kookbook-ae598.firebaseapp.com',
