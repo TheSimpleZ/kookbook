@@ -14,5 +14,6 @@ module.exports = {
     },
     enabled: !process.env.ROLLUP_WATCH, // disable purge in dev
   },
-  darkMode: 'class', // or 'media' or 'class'
+  darkMode: 'class', // or 'media' or 'class',
+  plugins: [require('@tailwindcss/typography')],
 }

@@ -13,6 +13,18 @@
         [userId]: 'owner',
       },
       name: 'New recipe',
+      contents: {
+        ops: [
+          { insert: 'New recipe' },
+          {
+            attributes: {
+              header: 1,
+              align: 'center',
+            },
+            insert: '\n',
+          },
+        ],
+      },
     })
   }
 </script>

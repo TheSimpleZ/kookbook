@@ -7,11 +7,9 @@
   import { FirebaseApp } from 'sveltefire'
 </script>
 
-<div class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-300 min-h-screen">
+<div class="flex flex-col min-h-screen text-gray-900 bg-white dark:bg-gray-900 dark:text-gray-300">
   <FirebaseApp {firebase}>
     <Header />
-    <main>
-      <slot />
-    </main>
+    <slot />
   </FirebaseApp>
 </div>
