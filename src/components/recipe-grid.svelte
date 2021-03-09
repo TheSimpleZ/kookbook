@@ -3,9 +3,9 @@
   export let recipes = []
 </script>
 
-<div class="w-screen p-10 grid auto-fill-200 gap-4">
+<div class="grid w-screen gap-4 p-10 auto-fill-200">
   {#each recipes as recipe}
-    <Card {recipe} />
+    <Card {recipe} bind:selected={recipe.selected} />
   {/each}
 </div>
 

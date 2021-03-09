@@ -3,7 +3,7 @@
   import Icon, { plus } from '@4mende2/svelte-heroicons'
 
   import FirebaseUI from '../components/firebase-ui.svelte'
-  import RecipeTable from '../components/recipe-table.svelte'
+  import RecipeGrid from '../components/recipe-grid.svelte'
   import Header from '../components/header.svelte'
 
   function addNewRecipe(recipes, ref, userId) {
@@ -37,13 +37,19 @@
 <!-- 2. 😀 Get the current user -->
 <User persist={localStorage} let:user let:auth>
   <Doc path={`users/${user.uid}`} log on:ref={(e) => e.detail.ref.set({ displayName: user.displayName })} once />
-  <Collection path="recipes" let:data={recipes} let:ref={recipesRef} log>
+  <Collection
+    path="recipes"
+    query={(ref) => ref.orderBy('createdAt', 'desc')}
+    let:data={recipes}
+    let:ref={recipesRef}
+    log
+  >
     <Header>
       <button on:click={addNewRecipe(recipes, recipesRef, user.uid)}><Icon icon={plus} class="icon" />New recipe</button
       >
     </Header>
 
-    <RecipeTable {recipes} />
+    <RecipeGrid {recipes} />
   </Collection>
 
   <div slot="signed-out"><FirebaseUI /></div>

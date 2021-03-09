@@ -4,13 +4,18 @@
   import { goto } from '@roxi/routify'
 
   export let recipe
+  export let selected = false
 
   const ownerId = Object.keys(recipe.roles).find((key) => recipe.roles[key] === 'owner')
 </script>
 
 <div
   class="w-full max-w-sm overflow-hidden bg-white border rounded shadow cursor-pointer"
-  on:click={() => $goto('/:id', { id: recipe.id })}
+  class:bg-gray-200={selected}
+  on:click={(e) => {
+    if (e.ctrlKey) selected = !selected
+    else $goto('/:id', { id: recipe.id })
+  }}
 >
   <div class="relative">
     <div class="h-48 bg-center bg-no-repeat bg-cover" style="background-image: url(./images/recipe-book.jpg)" />
