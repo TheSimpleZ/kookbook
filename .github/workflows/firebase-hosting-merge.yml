@@ -13,6 +13,12 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@master
+      - uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
       - name: Install Dependencies
         run: npm ci
       - name: Build
