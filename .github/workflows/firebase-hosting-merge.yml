@@ -39,7 +39,7 @@ jobs:
         with:
           args: deploy
         env:
-          GCP_SA_KEY: secrets.FIREBASE_SERVICE_ACCOUNT_KOOKBOOK_AE598
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
 
   # build_and_deploy:
