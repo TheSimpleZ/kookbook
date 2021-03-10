@@ -37,10 +37,8 @@
     "autobuild": "rollup -c -w",
     "routify": "routify",
     "dev": "run-p start:dev routify autobuild",
-    "ci": "yarn install --frozen-lockfile && yarn build",
     "start": "sirv public -s",
-    "start:dev": "sirv public -s --dev",
-    "deploy": "yarn build && firebase deploy"
+    "start:dev": "sirv public -s --dev"
   },
   "dependencies": {
     "@tailwindcss/forms": "^0.2.1",
