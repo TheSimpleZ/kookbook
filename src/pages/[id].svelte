@@ -1,5 +1,5 @@
 <script>
-  import Quill from 'quill'
+  import Quill from '../components/quill.svelte'
   import { Doc } from 'sveltefire'
   import Icon, { pencil } from '@4mende2/svelte-heroicons'
   import Header from '../components/header.svelte'
@@ -40,23 +40,6 @@
   function closeDialog() {
     showRenameDialog = false
     recipeNameInput = ''
-  }
-
-  function quillAction(node) {
-    quill = new Quill(node, {
-      modules: {
-        toolbar: [
-          [{ header: [1, 2, 3, false] }],
-          [{ align: ['', 'center', 'right', 'justify'] }],
-          ['bold', 'italic', 'underline', 'strike'],
-          ['link', 'code-block'],
-        ],
-      },
-      placeholder: 'Type something...',
-      theme: 'bubble', // or 'bubble'
-    })
-
-    quill.setContents(recipe.contents)
   }
 </script>
 
@@ -99,7 +82,7 @@
 
   <main class="h-full">
     <article class="w-3/4 h-full mx-auto mt-2 prose">
-      <div use:quillAction />
+      <Quill bind:quill initalData={recipe.contents} on:text-change={saveRecipe} />
     </article>
   </main>
 </Doc>
