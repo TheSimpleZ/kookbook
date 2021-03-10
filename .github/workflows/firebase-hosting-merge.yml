@@ -7,22 +7,21 @@ name: Deploy to Firebase Hosting on merge
     branches:
       - master
 jobs:
-
-build:
-  name: Build
-  runs-on: ubuntu-latest
-  steps:
-    - name: Checkout Repo
-      uses: actions/checkout@master
-    - name: Install Dependencies
-      run: npm install
-    - name: Build
-      run: npm run build-prod
-    - name: Archive Production Artifact
-      uses: actions/upload-artifact@master
-      with:
-        name: build
-        path: public/build
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+      - name: Install Dependencies
+        run: npm install
+      - name: Build
+        run: npm run build-prod
+      - name: Archive Production Artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: build
+          path: public/build
   deploy:
     name: Deploy
     needs: build
@@ -41,6 +40,7 @@ build:
           args: deploy
         env:
           GCP_SA_KEY: secrets.FIREBASE_SERVICE_ACCOUNT_KOOKBOOK_AE598
+
 
   # build_and_deploy:
   #   runs-on: ubuntu-latest
