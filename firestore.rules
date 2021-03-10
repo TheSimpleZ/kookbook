@@ -32,10 +32,10 @@ service cloud.firestore {
         || (isOneOfRoles(['writer']) && onlyContentChanged());
       allow create: if isOneOfRoles(['owner']) && isValidRecipe();
       allow read: if isOneOfRoles(['owner', 'reader']);
+    }
 
-
-
-
+    match /users/{userId} {
+      allow read, write: if isSignedIn() && request.auth.uid == userId;
     }
 
 
