@@ -29,7 +29,7 @@
   <Doc path={`users/${user.uid}`} log on:ref={(e) => e.detail.ref.set({ displayName: user.displayName })} once />
   <Collection
     path="recipes"
-    query={(ref) => ref.orderBy('createdAt', 'desc')}
+    query={(ref) => ref.where(`roles.${user.uid}`, '==', 'owner').orderBy('createdAt', 'desc')}
     let:data={recipes}
     let:ref={recipesRef}
     log
