@@ -6,8 +6,6 @@
 
   export let recipe
   export let selected = false
-
-  const ownerId = Object.keys(recipe.roles).find((key) => recipe.roles[key] === 'owner')
 </script>
 
 <div
@@ -26,7 +24,7 @@
       {recipe.name}
     </h3>
     <p class="text-xs text-gray-500">
-      <Doc path={`users/${ownerId}`} let:data={owner} once>
+      <Doc path={`users/${recipe.creator}`} let:data={owner} once>
         {owner.displayName} •
         <span
           use:tippy={{

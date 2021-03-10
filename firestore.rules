@@ -1,37 +1,33 @@
+rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+
     function isSignedIn() {
       return (request.auth.uid != null)
     }
 
-    function getRole() {
-      return resource.data.roles[request.auth.uid];
+    function isCreator() {
+      return isSignedIn() && resource.data.creator == request.auth.uid;
     }
 
-    function isOneOfRoles(array) {
-      return isSignedIn() && (getRole() in array);
+    function userIsCreator() {
+      return isSignedIn() && request.resource.data.creator == request.auth.uid;
     }
-
-    function isValidRecipe() {
-      return request.resource.data.roles[request.auth.uid] == 'owner';
-    }
-
-    function onlyContentChanged() {
-      // Ensure that title and roles are unchanged and that no new
-      // fields are added to the document.
-      return request.resource.data.name == resource.data.name
-        && request.resource.data.roles == resource.data.roles
-        && request.resource.data.keys() == resource.data.keys();
-    }
+  // function onlyContentChanged() {
+    //   // Ensure that title and roles are unchanged and that no new
+    //   // fields are added to the document.
+    //   return request.resource.data.name == resource.data.name
+    //     && request.resource.data.roles == resource.data.roles
+    //     && request.resource.data.keys() == resource.data.keys();
+    // }
 
 
 
     match /recipes/{recipe} {
-      allow delete: if isOneOfRoles(['owner']);
-      allow update: if isOneOfRoles(['owner'])
-        || (isOneOfRoles(['writer']) && onlyContentChanged());
-      allow create: if isOneOfRoles(['owner']) && isValidRecipe();
-      allow read: if isOneOfRoles(['owner', 'reader']);
+      allow delete: if isCreator();
+      allow update: if isCreator();
+      allow create: if userIsCreator();
+      allow read: if isCreator();
     }
 
     match /users/{userId} {
