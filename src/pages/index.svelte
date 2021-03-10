@@ -1,16 +1,18 @@
 <script>
   import { User, Doc, Collection } from 'sveltefire'
-  import Icon, { plus } from '@4mende2/svelte-heroicons'
-
+  import Icon, { plus, trash } from '@4mende2/svelte-heroicons'
   import FirebaseUI from '../components/firebase-ui.svelte'
   import RecipeGrid from '../components/recipe-grid.svelte'
   import Header from '../components/header.svelte'
+  import tippy from 'tippy.js'
+
+  let selectedRecipes = []
 
   function addNewRecipe(recipes, ref, userId) {
     const currentDateTime = new Date().toISOString()
-    const baseName = 'New recipe'
-    const name = baseName + recipes.filter((r) => r.name.startsWith(baseName)).length
-
+    const newRecipeRegex = /New recipe\d*/
+    const newRecipes = recipes.filter((r) => newRecipeRegex.test(r.name)).length
+    const name = 'New recipe' + (newRecipes || '')
     ref.add({
       createdAt: currentDateTime,
       updatedAt: currentDateTime,
@@ -18,18 +20,6 @@
         [userId]: 'owner',
       },
       name,
-      contents: {
-        ops: [
-          { insert: name },
-          {
-            attributes: {
-              header: 1,
-              align: 'center',
-            },
-            insert: '\n',
-          },
-        ],
-      },
     })
   }
 </script>
@@ -45,12 +35,36 @@
     log
   >
     <Header>
-      <button on:click={addNewRecipe(recipes, recipesRef, user.uid)}><Icon icon={plus} class="icon" />New recipe</button
-      >
+      <div class="flex items-center justify-center flex-1 gap-3 divide-x-2">
+        <button class="toolbarBtn" on:click={addNewRecipe(recipes, recipesRef, user.uid)}>
+          <Icon icon={plus} class="icon" />New
+        </button>
+
+        <span
+          use:tippy={{
+            content: 'Use ctrl+click to select a recipe',
+            placement: 'bottom',
+          }}
+        >
+          <button
+            class="toolbarBtn"
+            on:click={() => selectedRecipes.forEach((r) => r.ref.delete())}
+            disabled={selectedRecipes.length < 1}
+          >
+            <Icon icon={trash} class="icon" />Delete
+          </button>
+        </span>
+      </div>
     </Header>
 
-    <RecipeGrid {recipes} />
+    <RecipeGrid {recipes} bind:selectedRecipes />
   </Collection>
 
   <div slot="signed-out"><FirebaseUI /></div>
 </User>
+
+<style lang="postcss">
+  .toolbarBtn {
+    @apply pr-2 disabled:opacity-50;
+  }
+</style>

@@ -1,6 +1,9 @@
 <script>
   import Card from './recipe-card.svelte'
   export let recipes = []
+  export let selectedRecipes
+
+  $: selectedRecipes = recipes.filter((r) => r.selected)
 </script>
 
 <div class="grid w-screen gap-4 p-10 auto-fill-200">

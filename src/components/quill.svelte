@@ -23,12 +23,7 @@
       ...options,
     })
 
-    console.log(initalData)
     quill.setContents(initalData)
-
-    quill.on('text-change', function (delta, oldDelta, source) {
-      if (source === 'user') dispatch('text-change', { delta })
-    })
   }
 </script>
 

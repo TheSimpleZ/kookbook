@@ -10,6 +10,7 @@
 </FirebaseApp>
 
 <style global lang="postcss">
+  @import '../node_modules/tippy.js/dist/tippy.css';
   @tailwind base;
   @tailwind components;
   @tailwind utilities;
@@ -18,5 +19,10 @@
     .icon {
       @apply m-2 h-6 w-6 inline-block;
     }
+  }
+
+  html,
+  body {
+    height: 100%;
   }
 </style>

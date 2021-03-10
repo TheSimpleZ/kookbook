@@ -1,5 +1,5 @@
 <script>
-  import Quill from '../components/quill.svelte'
+  import Quill from 'quill'
   import { Doc } from 'sveltefire'
   import Icon, { pencil } from '@4mende2/svelte-heroicons'
   import Header from '../components/header.svelte'
@@ -41,6 +41,23 @@
     showRenameDialog = false
     recipeNameInput = ''
   }
+
+  function quillAction(node) {
+    quill = new Quill(node, {
+      modules: {
+        toolbar: [
+          [{ header: [1, 2, 3, false] }],
+          [{ align: ['', 'center', 'right', 'justify'] }],
+          ['bold', 'italic', 'underline', 'strike'],
+          ['link', 'code-block'],
+        ],
+      },
+      placeholder: 'Type something...',
+      theme: 'bubble', // or 'bubble'
+    })
+
+    quill.setContents(recipe.contents)
+  }
 </script>
 
 <Doc
@@ -53,8 +70,10 @@
   }}
 >
   <Header>
-    <h1 class="mx-2 text-2xl font-semibold">{recipe.name}</h1>
-    <button on:click={openRenameDialog}><Icon icon={pencil} class="w-4 h-4 m-1" /></button>
+    <div class="flex items-center justify-center flex-1">
+      <h1 class="mx-2 text-3xl font-bold">{recipe.name}</h1>
+      <button on:click={openRenameDialog}><Icon icon={pencil} class="w-4 h-4 m-1" /></button>
+    </div>
   </Header>
 
   <Dialog visible={showRenameDialog} inverted closable={false}>
@@ -78,9 +97,9 @@
     </div>
   </Dialog>
 
-  <main class="flex flex-col items-center flex-1">
-    <article class="flex-grow w-3/4 mt-2 prose max-w-none">
-      <Quill bind:quill initalData={recipe.contents} on:text-change={saveRecipe} />
+  <main class="h-full">
+    <article class="w-3/4 h-full mx-auto mt-2 prose">
+      <div use:quillAction />
     </article>
   </main>
 </Doc>

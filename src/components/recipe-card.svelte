@@ -2,6 +2,7 @@
   import { Doc } from 'sveltefire'
   import timeAgo from '../libs/timeAgo'
   import { goto } from '@roxi/routify'
+  import tippy from 'tippy.js'
 
   export let recipe
   export let selected = false
@@ -26,7 +27,15 @@
     </h3>
     <p class="text-xs text-gray-500">
       <Doc path={`users/${ownerId}`} let:data={owner} once>
-        {owner.displayName} • {timeAgo.format(new Date(recipe.updatedAt))}
+        {owner.displayName} •
+        <span
+          use:tippy={{
+            content: new Date(recipe.updatedAt).toLocaleString(),
+            placement: 'bottom',
+          }}
+        >
+          {timeAgo.format(new Date(recipe.updatedAt))}
+        </span>
       </Doc>
     </p>
   </div>

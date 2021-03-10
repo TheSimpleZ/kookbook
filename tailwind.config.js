@@ -16,4 +16,9 @@ module.exports = {
   },
   darkMode: 'class', // or 'media' or 'class',
   plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms')],
+  variants: {
+    extend: {
+      opacity: ['disabled'],
+    },
+  },
 }

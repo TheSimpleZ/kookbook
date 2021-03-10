@@ -7,9 +7,7 @@
   <a href="/" class="text-xl">
     <Icon icon={bookOpen} class="icon" />Kookbook
   </a>
-  <div class="flex items-center">
-    <slot />
-  </div>
+  <slot />
   <User persist={localStorage} let:auth>
     <a href="/" on:click={() => auth.signOut()} class="">
       Log out
