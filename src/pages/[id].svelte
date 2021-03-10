@@ -82,7 +82,12 @@
 
   <main class="h-full">
     <article class="w-3/4 h-full mx-auto mt-2 prose">
-      <Quill bind:quill initalData={recipe.contents} on:text-change={saveRecipe} />
+      <Quill
+        bind:quill
+        initalData={recipe.contents}
+        on:text-change={saveRecipe}
+        placeholder="Write a fancy recipe here..."
+      />
     </article>
   </main>
 </Doc>
@@ -90,5 +95,9 @@
 <style lang="postcss">
   .dialogBtn {
     @apply p-2 px-3 rounded-lg;
+  }
+
+  :global(.ql-container) {
+    font-size: inherit !important;
   }
 </style>
