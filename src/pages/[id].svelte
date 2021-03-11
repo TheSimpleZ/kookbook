@@ -5,6 +5,7 @@
   import Header from '../components/header.svelte'
   import Dialog from '../components/dialog.svelte'
   import debounce from 'lodash.debounce'
+  import { Storage } from '../config/firebase'
 
   export let id
   let recipeRef
@@ -12,6 +13,7 @@
   let recipeNameInput
   let showRenameDialog = false
   let quill
+  const documentPath = `recipes/${id}`
 
   const saveRecipe = debounce(
     () => {
@@ -41,10 +43,52 @@
     showRenameDialog = false
     recipeNameInput = ''
   }
+
+  function getImgUrls(delta) {
+    return delta.ops
+      .filter((i) => i.insert && i.insert.image && new URL(i.insert.image).host === 'firebasestorage.googleapis.com')
+      .map((i) => i.insert.image)
+  }
+
+  function removeDeletedImages({ detail: { oldDelta } }) {
+    const deletedImageUrls = getImgUrls(quill.getContents().diff(oldDelta))
+
+    for (const url of deletedImageUrls) {
+      Storage.refFromURL(url).delete()
+    }
+  }
+
+  const quillOptions = {
+    modules: {
+      toolbar: [
+        [{ header: [1, 2, 3, false] }],
+        [{ align: ['', 'center', 'right', 'justify'] }],
+        ['bold', 'italic', 'underline'],
+        [{ list: 'ordered' }, { list: 'bullet' }],
+        ['link', 'image', 'video'],
+        ['clean'],
+      ],
+      imageUploader: {
+        upload: (file) => {
+          return new Promise((resolve, reject) => {
+            Storage.ref(`${documentPath}/${file.name}`)
+              .put(file)
+              .then(async (snapshot) => {
+                const url = await snapshot.ref.getDownloadURL()
+                resolve(url)
+              })
+              .catch((error) => reject(error))
+          })
+        },
+      },
+    },
+    placeholder: 'Type something...',
+    theme: 'bubble',
+  }
 </script>
 
 <Doc
-  path={`recipes/${id}`}
+  path={documentPath}
   on:data={(e) => {
     recipe = e.detail.data
   }}
@@ -85,7 +129,11 @@
       <Quill
         bind:quill
         initalData={recipe.contents}
-        on:text-change={saveRecipe}
+        options={quillOptions}
+        on:text-change={(e) => {
+          saveRecipe()
+          removeDeletedImages(e)
+        }}
         placeholder="Write a fancy recipe here..."
       />
     </article>

@@ -1,5 +1,6 @@
 <script>
   import Quill from 'quill'
+  import ImageUploader from 'quill-image-uploader/src/quill.imageUploader'
   import { createEventDispatcher } from 'svelte'
 
   const dispatch = createEventDispatcher()
@@ -9,24 +10,13 @@
   export let quill
 
   function quillAction(node) {
-    quill = new Quill(node, {
-      modules: {
-        toolbar: [
-          [{ header: [1, 2, 3, false] }],
-          [{ align: ['', 'center', 'right', 'justify'] }],
-          ['bold', 'italic', 'underline', 'strike'],
-          ['link', 'code-block'],
-        ],
-      },
-      placeholder: 'Type something...',
-      theme: 'bubble', // or 'bubble'
-      ...options,
-    })
+    Quill.register('modules/imageUploader', ImageUploader)
+    quill = new Quill(node, options)
 
     quill.setContents(initalData)
 
     quill.on('text-change', function (delta, oldDelta, source) {
-      if (source === 'user') dispatch('text-change', { delta })
+      if (source === 'user') dispatch('text-change', { delta, oldDelta, source })
     })
   }
 </script>
