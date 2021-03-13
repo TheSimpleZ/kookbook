@@ -20,9 +20,4 @@
       @apply m-2 h-6 w-6 inline-block;
     }
   }
-
-  html,
-  body {
-    height: 100%;
-  }
 </style>
