@@ -58,7 +58,10 @@
     <RecipeGrid {recipes} bind:selectedRecipes />
   </Collection>
 
-  <div slot="signed-out"><FirebaseUI /></div>
+  <div slot="signed-out">
+    <Header />
+    <FirebaseUI />
+  </div>
 </User>
 
 <style lang="postcss">

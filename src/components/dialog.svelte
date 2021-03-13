@@ -1,4 +1,5 @@
 <script>
+  // https://github.com/fouita/svelte-tw-dialog#readme
   import { fade } from 'svelte/transition'
   import Icon, { x } from '@4mende2/svelte-heroicons'
   import { onMount } from 'svelte'

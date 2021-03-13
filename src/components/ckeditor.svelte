@@ -6,11 +6,13 @@
   export let saveData
   export let initialData
   export let imageUploadPath = ''
+  export let placeholder = ''
   let editorElement
   const dispatch = createEventDispatcher()
 
   const config = {
     initialData,
+    placeholder,
     autosave: {
       save(editor) {
         return saveData(editor.getData())
@@ -41,7 +43,7 @@
     },
     licenseKey: '',
     imageRemoveEvent: {
-      callback: (imagesSrc, nodeObjects) => {
+      callback: (imagesSrc) => {
         dispatch('imagesDeleted', imagesSrc)
       },
     },
