@@ -15,8 +15,7 @@
   const documentPath = `recipes/${id}`
 
   const saveRecipe = (data) => {
-    console.log('save! ', data)
-    recipeRef.update({
+    return recipeRef.update({
       contents: data,
     })
   }

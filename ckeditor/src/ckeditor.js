@@ -31,7 +31,8 @@ import Table from '@ckeditor/ckeditor5-table/src/table.js'
 import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar.js'
 import TextTransformation from '@ckeditor/ckeditor5-typing/src/texttransformation.js'
 import Underline from '@ckeditor/ckeditor5-basic-styles/src/underline.js'
-import ImageRemoveEventCallbackPlugin from 'ckeditor5-image-remove-event-callback-plugin' // Add this
+import ImageRemoveEventCallbackPlugin from 'ckeditor5-image-remove-event-callback-plugin'
+import IndentBlock from '@ckeditor/ckeditor5-indent/src/indentblock'
 
 class Editor extends BalloonBlockEditor {}
 
@@ -66,6 +67,7 @@ Editor.builtinPlugins = [
   TextTransformation,
   Underline,
   ImageRemoveEventCallbackPlugin,
+  IndentBlock,
 ]
 
 export default Editor
