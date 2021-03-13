@@ -1,10 +1,9 @@
 <script>
-  import Quill from '../components/quill.svelte'
+  import CkEditor from '../components/ckeditor.svelte'
   import { Doc } from 'sveltefire'
   import Icon, { pencil } from '@4mende2/svelte-heroicons'
   import Header from '../components/header.svelte'
   import Dialog from '../components/dialog.svelte'
-  import debounce from 'lodash.debounce'
   import { Storage } from '../config/firebase'
 
   export let id
@@ -15,17 +14,12 @@
   let quill
   const documentPath = `recipes/${id}`
 
-  const saveRecipe = debounce(
-    () => {
-      recipeRef.update({
-        contents: { ...quill.getContents() },
-      })
-    },
-    2000,
-    {
-      maxWait: 5000,
-    }
-  )
+  const saveRecipe = (data) => {
+    console.log('save! ', data)
+    recipeRef.update({
+      contents: data,
+    })
+  }
 
   async function saveName() {
     await recipeRef.update({
@@ -44,46 +38,10 @@
     recipeNameInput = ''
   }
 
-  function getImgUrls(delta) {
-    return delta.ops
-      .filter((i) => i.insert && i.insert.image && new URL(i.insert.image).host === 'firebasestorage.googleapis.com')
-      .map((i) => i.insert.image)
-  }
-
-  function removeDeletedImages({ detail: { oldDelta } }) {
-    const deletedImageUrls = getImgUrls(quill.getContents().diff(oldDelta))
-
-    for (const url of deletedImageUrls) {
+  function removeDeletedImages({ detail: urls }) {
+    for (const url of urls) {
       Storage.refFromURL(url).delete()
     }
-  }
-
-  const quillOptions = {
-    modules: {
-      toolbar: [
-        [{ header: [1, 2, 3, false] }],
-        [{ align: ['', 'center', 'right', 'justify'] }],
-        ['bold', 'italic', 'underline'],
-        [{ list: 'ordered' }, { list: 'bullet' }],
-        ['link', 'image', 'video'],
-        ['clean'],
-      ],
-      imageUploader: {
-        upload: (file) => {
-          return new Promise((resolve, reject) => {
-            Storage.ref(`${documentPath}/${file.name}`)
-              .put(file)
-              .then(async (snapshot) => {
-                const url = await snapshot.ref.getDownloadURL()
-                resolve(url)
-              })
-              .catch((error) => reject(error))
-          })
-        },
-      },
-    },
-    placeholder: 'Type something...',
-    theme: 'bubble',
   }
 </script>
 
@@ -126,7 +84,7 @@
     </Dialog>
 
     <article class="flex items-stretch flex-grow w-3/4 mx-auto mt-2 prose">
-      <Quill
+      <!-- <Quill
         bind:quill
         initalData={recipe.contents}
         options={quillOptions}
@@ -135,6 +93,13 @@
           removeDeletedImages(e)
         }}
         placeholder="Write a fancy recipe here..."
+      /> -->
+
+      <CkEditor
+        saveData={saveRecipe}
+        initialData={recipe.contents}
+        imageUploadPath={documentPath + '/'}
+        on:imagesDeleted={removeDeletedImages}
       />
     </article>
   </main>
