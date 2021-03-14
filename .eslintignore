@@ -1,3 +1,4 @@
 *.config.js
 public
 .eslintrc.*
+ckeditor

@@ -12,7 +12,7 @@
   let recipe
   let recipeNameInput
   let showRenameDialog = false
-  let quill
+
   const documentPath = `recipes/${id}`
 
   const saveRecipe = (data) => {
