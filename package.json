@@ -37,7 +37,7 @@
     "autobuild": "rollup -c -w --environment LIVERELOAD",
     "routify": "routify",
     "dev": "run-p routify dev:nollup",
-    "dev:nollup": "nollup -c --hot --port 5000 --content-base ./public --public-path build",
+    "dev:nollup": "nollup --verbose -c --hot --port 5000 --content-base ./public --public-path build",
     "dev:start": "sirv public -s --dev",
     "dev:livereload": "run-p dev:start routify autobuild",
     "start": "sirv public -s"

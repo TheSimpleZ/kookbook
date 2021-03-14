@@ -4,7 +4,8 @@
   import FirebaseUI from '../components/firebase-ui.svelte'
   import RecipeGrid from '../components/recipe-grid.svelte'
   import Header from '../components/header.svelte'
-  import Toolbar from '../components/toolbar.svelte'
+  import Toolbar from '../components/toolbar/toolbar.svelte'
+  import ToolbarButton from '../components/toolbar/button.svelte'
   let selectedRecipes = []
 
   function addNewRecipe(recipes, ref, userId) {
@@ -21,8 +22,9 @@
   }
 </script>
 
-<!-- 2. 😀 Get the current user -->
-<User persist={localStorage} let:user let:auth>
+<Header />
+
+<User persist={localStorage} let:user>
   <Doc path={`users/${user.uid}`} log on:ref={(e) => e.detail.ref.set({ displayName: user.displayName })} once />
   <Collection
     path="recipes"
@@ -31,21 +33,18 @@
     let:ref={recipesRef}
     log
   >
-    <Header>
-      <div class="flex items-center justify-center flex-1 gap-3 divide-x-2">
-        <button class="toolbarBtn" on:click={addNewRecipe(recipes, recipesRef, user.uid)}>
-          <Plus size="20" class="icon" />New
-        </button>
-        <button
-          class="toolbarBtn"
-          on:click={() => selectedRecipes.forEach((r) => r.ref.delete())}
-          disabled={selectedRecipes.length < 1}
-        >
-          <Trash size="20" class="icon" />Deleteeee
-        </button>
-      </div>
-    </Header>
-    <Toolbar />
+    <Toolbar>
+      <ToolbarButton on:click={addNewRecipe(recipes, recipesRef, user.uid)}>
+        <Plus size="20" class="icon" />New recipe
+      </ToolbarButton>
+      <ToolbarButton
+        tooltip="Select a recipe"
+        disabled={selectedRecipes.length < 1}
+        on:click={() => selectedRecipes.forEach((r) => r.ref.delete())}
+      >
+        <Trash size="20" class="icon" />Delete
+      </ToolbarButton>
+    </Toolbar>
     <RecipeGrid {recipes} bind:selectedRecipes />
   </Collection>
 
@@ -54,9 +53,3 @@
     <FirebaseUI />
   </div>
 </User>
-
-<style lang="postcss">
-  .toolbarBtn {
-    @apply pr-2 disabled:opacity-50;
-  }
-</style>

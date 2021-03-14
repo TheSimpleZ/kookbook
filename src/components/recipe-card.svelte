@@ -3,16 +3,21 @@
   import timeAgo from '../libs/timeAgo'
   import { goto } from '@roxi/routify'
   import tippy from 'tippy.js'
-  import { CheckCircle } from 'svelte-hero-icons'
 
   export let recipe
   export let selected = false
+  export let selectMode = false
   let showCheckbox = false
+
+  function toggleSelect() {
+    selected = !selected
+  }
 </script>
 
 <div
   class="w-full max-w-sm overflow-hidden bg-white border rounded shadow cursor-pointer"
-  on:click={() => $goto('/:id', { id: recipe.id })}
+  class:hover:bg-gray-100={selectMode || selected}
+  on:click={() => (selectMode ? toggleSelect() : $goto('/:id', { id: recipe.id }))}
   on:mouseenter={() => {
     showCheckbox = true
   }}
@@ -23,7 +28,7 @@
   <div class="relative">
     <div class="h-48 bg-center bg-no-repeat bg-cover" style="background-image: url(./images/recipe-book.jpg)" />
   </div>
-  <div class="flex">
+  <div class="flex justify-between">
     <div class="flex flex-col p-3">
       <h3 class="mr-10 text-sm truncate-2nd">
         {recipe.name}
@@ -42,12 +47,7 @@
         </Doc>
       </p>
     </div>
-    <div
-      class="flex items-center justify-center flex-1 hover:bg-gray-100"
-      on:click|stopPropagation={() => {
-        selected = !selected
-      }}
-    >
+    <div class="flex items-center justify-center w-20 hover:bg-gray-100" on:click|stopPropagation={toggleSelect}>
       <input
         type="checkbox"
         on:click|stopPropagation

@@ -26,11 +26,13 @@ export default {
       compilerOptions: {
         // enable run-time checks when not in production
         dev: !production,
+        css: false,
       },
       preprocess: sveltePreprocess({
         sourceMap: !production,
         postcss: true,
       }),
+      emitCss: true,
       hot: isNollup,
     }),
     json(),
@@ -38,6 +40,7 @@ export default {
       'process.env.NODE_ENV': JSON.stringify('production'),
     }),
     css({ output: 'public/build/bundle.css' }),
+
     // If you have external dependencies installed from
     // npm, you'll most likely need these plugins. In
     // some cases you'll need additional configuration —
