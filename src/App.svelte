@@ -17,7 +17,7 @@
 
   @layer components {
     .icon {
-      @apply m-2 h-6 w-6 inline-block;
+      @apply mx-2 inline-block;
     }
   }
 </style>

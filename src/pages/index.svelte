@@ -1,11 +1,10 @@
 <script>
   import { User, Doc, Collection } from 'sveltefire'
-  import Icon, { plus, trash } from '@4mende2/svelte-heroicons'
+  import { Plus, Trash } from 'svelte-hero-icons'
   import FirebaseUI from '../components/firebase-ui.svelte'
   import RecipeGrid from '../components/recipe-grid.svelte'
   import Header from '../components/header.svelte'
-  import tippy from 'tippy.js'
-
+  import Toolbar from '../components/toolbar.svelte'
   let selectedRecipes = []
 
   function addNewRecipe(recipes, ref, userId) {
@@ -35,26 +34,18 @@
     <Header>
       <div class="flex items-center justify-center flex-1 gap-3 divide-x-2">
         <button class="toolbarBtn" on:click={addNewRecipe(recipes, recipesRef, user.uid)}>
-          <Icon icon={plus} class="icon" />New
+          <Plus size="20" class="icon" />New
         </button>
-
-        <span
-          use:tippy={{
-            content: 'Use ctrl+click to select a recipe',
-            placement: 'bottom',
-          }}
+        <button
+          class="toolbarBtn"
+          on:click={() => selectedRecipes.forEach((r) => r.ref.delete())}
+          disabled={selectedRecipes.length < 1}
         >
-          <button
-            class="toolbarBtn"
-            on:click={() => selectedRecipes.forEach((r) => r.ref.delete())}
-            disabled={selectedRecipes.length < 1}
-          >
-            <Icon icon={trash} class="icon" />Delete
-          </button>
-        </span>
+          <Trash size="20" class="icon" />Deleteeee
+        </button>
       </div>
     </Header>
-
+    <Toolbar />
     <RecipeGrid {recipes} bind:selectedRecipes />
   </Collection>
 

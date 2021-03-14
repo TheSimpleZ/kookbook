@@ -1,7 +1,7 @@
 <script>
   import CkEditor from '../components/ckeditor.svelte'
   import { Doc } from 'sveltefire'
-  import Icon, { pencil } from '@4mende2/svelte-heroicons'
+  import { Pencil } from 'svelte-hero-icons'
   import Header from '../components/header.svelte'
   import Dialog from '../components/dialog.svelte'
   import { Storage } from '../config/firebase'
@@ -65,7 +65,7 @@
             placement: 'bottom',
           }}
         >
-          <Icon icon={pencil} class="w-4 h-4 m-1" />
+          <Pencil size="20" class="icon" />
         </button>
       </div>
     </Header>
