@@ -1,11 +1,21 @@
 <!-- src/pages/_layout.svelte -->
 <script>
-  import { firebase } from '../config/firebase'
-  import { FirebaseApp } from 'sveltefire'
+  import { firebase } from '../libs/firebase'
+  import { FirebaseApp, User, Doc } from 'sveltefire'
+
+  import Login from './login.svelte'
 </script>
 
 <div class="w-full h-full text-gray-900 bg-white dark:bg-gray-900 dark:text-gray-300">
   <FirebaseApp {firebase}>
-    <slot />
+    <User persist={localStorage} let:user={{ uid, displayName, email }}>
+      <Doc path={`users/${uid}`} on:ref={(e) => e.detail.ref.set({ displayName, email })} once />
+
+      <slot />
+
+      <div slot="signed-out">
+        <Login />
+      </div>
+    </User>
   </FirebaseApp>
 </div>

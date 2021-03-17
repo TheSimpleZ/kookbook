@@ -2,7 +2,7 @@
   import { Router } from '@roxi/routify'
   import { routes } from '../.routify/routes'
   import { FirebaseApp } from 'sveltefire'
-  import { firebase } from './config/firebase'
+  import { firebase } from './libs/firebase'
 </script>
 
 <FirebaseApp {firebase}>
@@ -17,7 +17,7 @@
 
   @layer components {
     .icon {
-      @apply mx-2 inline-block;
+      @apply mx-1 inline-block;
     }
   }
 </style>

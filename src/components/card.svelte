@@ -10,12 +10,13 @@
 
   function toggleSelect() {
     selected = !selected
+    dispatch('change', selected)
   }
 </script>
 
 <div
   class="w-full max-w-sm overflow-hidden bg-white border rounded shadow cursor-pointer"
-  class:hover:bg-gray-100={selectMode || selected}
+  class:hover:bg-gray-100={selectMode}
   on:click={(e) => (selectMode ? toggleSelect() : dispatch('click', e.detail))}
   on:mouseenter={() => {
     showCheckbox = true

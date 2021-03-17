@@ -4,7 +4,7 @@
   import { Pencil } from 'svelte-hero-icons'
   import Header from '../components/header.svelte'
   import Dialog from '../components/dialog.svelte'
-  import { Storage } from '../config/firebase'
+  import { Storage, firebase } from '../libs/firebase'
   import tippy from 'tippy.js'
 
   export let id
@@ -17,6 +17,7 @@
 
   const saveRecipe = (data) => {
     return recipeRef.update({
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp,
       contents: data,
     })
   }
@@ -82,7 +83,7 @@
   </main>
 </Doc>
 
-<Dialog visible={showRenameDialog} inverted closable={false}>
+<Dialog visible={showRenameDialog} on:ok={saveName} on:cancel={closeDialog}>
   <div class="flex flex-col h-40 p-5">
     <label for="recipe_name" class="block text-sm font-medium text-gray-700">Name</label>
     <input
@@ -91,26 +92,5 @@
       bind:value={recipeNameInput}
       class="mt-0 block w-60 px-0.5 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black"
     />
-    <div class="flex justify-end gap-4 mt-auto">
-      <button class="text-white bg-red-500 dialogBtn hover:bg-red-400" on:click={closeDialog}>Cancel</button>
-      <button
-        class="text-indigo-500 bg-transparent dialogBtn hover:bg-gray-100 hover:text-indigo-400"
-        on:click={saveName}
-      >
-        Save
-      </button>
-    </div>
   </div>
 </Dialog>
-
-<style lang="postcss">
-  .dialogBtn {
-    @apply p-2 px-3 rounded-lg;
-  }
-
-  :global(.ql-container) {
-    font-size: inherit !important;
-    height: inherit !important;
-    @apply flex-1;
-  }
-</style>

@@ -1,5 +1,5 @@
 <script>
-  import { Auth, firebase } from '../config/firebase'
+  import { Auth, firebase } from '../libs/firebase'
   import * as firebaseui from 'firebaseui'
   import { onMount } from 'svelte'
 
@@ -10,7 +10,6 @@
     signInOptions: [
       // Leave the lines as is for the providers you want to offer your users.
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-      firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID,
     ],
   }
 

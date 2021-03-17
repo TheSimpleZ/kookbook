@@ -10,28 +10,23 @@ service cloud.firestore {
       return isSignedIn() && resource.data.creator == request.auth.uid;
     }
 
+    function isReader() {
+      return isSignedIn() && request.auth.uid in resource.data.readers || isCreator();
+    }
+
     function userIsCreator() {
       return isSignedIn() && request.resource.data.creator == request.auth.uid;
     }
-  // function onlyContentChanged() {
-    //   // Ensure that title and roles are unchanged and that no new
-    //   // fields are added to the document.
-    //   return request.resource.data.name == resource.data.name
-    //     && request.resource.data.roles == resource.data.roles
-    //     && request.resource.data.keys() == resource.data.keys();
-    // }
-
-
 
     match /recipes/{recipe} {
       allow delete: if isCreator();
       allow update: if isCreator();
       allow create: if userIsCreator();
-      allow read: if isCreator();
+      allow read: if isReader();
     }
 
     match /users/{userId} {
-      allow read, write: if isSignedIn() && request.auth.uid == userId;
+      allow read, write: if isSignedIn();
     }
 
 

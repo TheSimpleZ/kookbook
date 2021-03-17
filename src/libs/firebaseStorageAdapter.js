@@ -1,4 +1,4 @@
-import { firebase, Storage } from '../config/firebase'
+import { firebase, Storage } from '../libs/firebase'
 
 // https://dev.to/suraj975/ckeditor-image-upload-with-firebase-and-react-1pe8
 

@@ -59,7 +59,7 @@ export default {
     // If we're building for production (npm run build
     // instead of npm run dev), minify
     production && terser(),
-    !production && isNollup && Hmr({ inMemory: true, public: 'public' }), // refresh only updated code
+    !production && isNollup && Hmr({ inMemory: true, public: 'public', write: true }), // refresh only updated code
     {
       // provide node environment on the client
       transform: (code) => ({
