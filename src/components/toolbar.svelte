@@ -22,12 +22,12 @@
     <select
       bind:value={orderBy}
       name="orderBy"
-      class="text-sm border-0 border-b border-gray-400 focus:border-b focus:border-gray-400 "
+      class="self-end text-sm border-0 border-b border-gray-400 focus:border-b focus:border-gray-400 "
     >
       <option value="createdAt" selected>Created at</option>
       <option value="name">Alphabetically</option>
     </select>
-    <label for="sort" use:tippy={{ content: sortByCheckbox ? 'Descending' : 'Ascending' }}>
+    <label class="self-end" for="sort" use:tippy={{ content: sortByCheckbox ? 'Descending' : 'Ascending' }}>
       {#if sortBy == 'asc'}
         <SortAscending size="20" solid class="icon" />
       {:else}

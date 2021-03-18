@@ -9,6 +9,7 @@
   import Toolbar from '../components/toolbar.svelte'
   import ShareDialog from '../components/shareDialog.svelte'
   import { firebase } from '../libs/firebase'
+  import ChooseNameDialog from '../components/chooseNameDialog.svelte'
 
   let orderBy = 'createdAt'
   let selectedRecipes = {}
@@ -16,18 +17,9 @@
   let recipes
   let recipesRef
   let showShareDialog = false
+  let showNameDialog = false
   const roles = ['creator', 'readers', 'writers']
   $: selectMode = !isEmpty(selectedRecipes)
-
-  function addNewRecipe(userId) {
-    const currentDateTime = firebase.firestore.FieldValue.serverTimestamp()
-    recipesRef.add({
-      createdAt: currentDateTime,
-      updatedAt: currentDateTime,
-      creator: userId,
-      name: 'Untitled recipe',
-    })
-  }
 
   function isEmpty(obj) {
     return obj && Object.keys(obj).length === 0 && obj.constructor === Object
@@ -41,7 +33,9 @@
     bind:selectMode
     bind:sortBy
     bind:orderBy
-    on:newRecipeClick={() => addNewRecipe(user.uid)}
+    on:newRecipeClick={() => {
+      showNameDialog = true
+    }}
     on:deleteRecipeClick={() => Object.values(selectedRecipes).forEach((r) => r.ref.delete())}
     on:unselectAll={() => {
       selectedRecipes = {}
@@ -87,11 +81,11 @@
                 {owner.displayName} •
                 <span
                   use:tippy={{
-                    content: item.updatedAt.toDate().toLocaleString(),
+                    content: item.updatedAt?.toDate().toLocaleString() || '',
                     placement: 'bottom',
                   }}
                 >
-                  {timeAgo.format(item.updatedAt.toDate())}
+                  {item.updatedAt && timeAgo.format(item.updatedAt.toDate())}
                 </span>
               </Doc>
             </p>
@@ -99,7 +93,19 @@
         </Card>
       </GridList>
 
-      <ShareDialog bind:visible={showShareDialog} recipes={Object.values(selectedRecipes)} />
+      <ShareDialog bind:visible={showShareDialog} recipe={Object.values(selectedRecipes)[0]} />
+      <ChooseNameDialog
+        on:ok={({ detail: name }) => {
+          const currentDateTime = firebase.firestore.FieldValue.serverTimestamp()
+          recipesRef.add({
+            createdAt: currentDateTime,
+            updatedAt: currentDateTime,
+            creator: user.uid,
+            name,
+          })
+        }}
+        bind:visible={showNameDialog}
+      />
     </Collection>
   </Collection>
 </User>

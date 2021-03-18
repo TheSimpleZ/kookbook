@@ -26,6 +26,6 @@ module.exports = {
     'no-console': 'error',
   },
   settings: {
-    'svelte3/ignore-styles': true,
+    'svelte3/ignore-styles': () => true,
   },
 }
