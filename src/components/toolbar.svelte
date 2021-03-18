@@ -19,7 +19,11 @@
   </button>
 
   <div class="toolbarItem">
-    <select bind:value={orderBy} name="orderBy" class="text-sm">
+    <select
+      bind:value={orderBy}
+      name="orderBy"
+      class="text-sm border-0 border-b border-gray-400 focus:border-b focus:border-gray-400 "
+    >
       <option value="createdAt" selected>Created at</option>
       <option value="name">Alphabetically</option>
     </select>
@@ -51,7 +55,7 @@
   </span>
 </div>
 
-<style lang="postcss">
+<style>
   .toolbarItem {
     @apply flex items-center justify-center px-4 py-2 disabled:opacity-50 focus:outline-none;
   }

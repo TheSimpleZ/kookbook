@@ -9,7 +9,7 @@
   <Router {routes} />
 </FirebaseApp>
 
-<style global lang="postcss">
+<style global>
   @import '../node_modules/tippy.js/dist/tippy.css';
   @tailwind base;
   @tailwind components;

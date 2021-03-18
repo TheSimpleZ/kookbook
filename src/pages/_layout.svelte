@@ -8,8 +8,12 @@
 
 <div class="w-full h-full text-gray-900 bg-white dark:bg-gray-900 dark:text-gray-300">
   <FirebaseApp {firebase}>
-    <User persist={localStorage} let:user={{ uid, displayName, email }}>
-      <Doc path={`users/${uid}`} on:ref={(e) => e.detail.ref.set({ displayName, email })} once />
+    <User persist={localStorage} let:user>
+      <Doc
+        path={`users/${user?.uid}`}
+        on:ref={(e) => e.detail.ref.set({ displayName: user?.displayName, email: user?.email })}
+        once
+      />
 
       <slot />
 

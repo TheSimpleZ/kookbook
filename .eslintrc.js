@@ -23,5 +23,9 @@ module.exports = {
       'warn',
       { vars: 'all', varsIgnorePattern: '^_', args: 'after-used', argsIgnorePattern: '^_' },
     ],
+    'no-console': 'error',
+  },
+  settings: {
+    'svelte3/ignore-styles': true,
   },
 }

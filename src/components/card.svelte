@@ -37,7 +37,7 @@
       <input
         type="checkbox"
         on:click|stopPropagation={toggleSelect}
-        class="rounded-full"
+        class="rounded"
         class:invisible={!showCheckbox && !selected}
         bind:checked={selected}
       />

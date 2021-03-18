@@ -1,42 +1,26 @@
 <script>
+  import RenameDialog from '../components/chooseNameDialog.svelte'
+
   import CkEditor from '../components/ckeditor.svelte'
   import { Doc } from 'sveltefire'
   import { Pencil } from 'svelte-hero-icons'
   import Header from '../components/header.svelte'
-  import Dialog from '../components/dialog.svelte'
   import { Storage, firebase } from '../libs/firebase'
   import tippy from 'tippy.js'
 
   export let id
-  let recipeRef
-  let recipe
-  let recipeNameInput
   let showRenameDialog = false
 
   const documentPath = `recipes/${id}`
 
-  const saveRecipe = (data) => {
-    return recipeRef.update({
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp,
+  const saveRecipe = (ref) => (data) => {
+    return ref.update({
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
       contents: data,
     })
   }
-
-  async function saveName() {
-    await recipeRef.update({
-      name: recipeNameInput,
-    })
-    closeDialog()
-  }
-
   function openRenameDialog() {
     showRenameDialog = !showRenameDialog
-    recipeNameInput = recipe.name
-  }
-
-  function closeDialog() {
-    showRenameDialog = false
-    recipeNameInput = ''
   }
 
   function removeDeletedImages({ detail: urls }) {
@@ -46,15 +30,7 @@
   }
 </script>
 
-<Doc
-  path={documentPath}
-  on:data={(e) => {
-    recipe = e.detail.data
-  }}
-  on:ref={(e) => {
-    recipeRef = e.detail.ref
-  }}
->
+<Doc path={documentPath} let:data={recipe} let:ref>
   <main class="flex flex-col min-h-screen">
     <Header>
       <div class="flex items-center justify-center flex-1">
@@ -73,7 +49,7 @@
 
     <article class="flex items-stretch flex-grow w-3/4 mx-auto mt-2 prose lg:prose-lg">
       <CkEditor
-        saveData={saveRecipe}
+        saveData={saveRecipe(ref)}
         initialData={recipe.contents}
         imageUploadPath={documentPath + '/'}
         placeholder="Enter your recipe here..."
@@ -81,16 +57,9 @@
       />
     </article>
   </main>
+  <RenameDialog
+    on:ok={({ detail: name }) => ref.update({ updatedAt: firebase.firestore.FieldValue.serverTimestamp(), name })}
+    bind:visible={showRenameDialog}
+    initialValue={recipe.name}
+  />
 </Doc>
-
-<Dialog visible={showRenameDialog} on:ok={saveName} on:cancel={closeDialog}>
-  <div class="flex flex-col h-40 p-5">
-    <label for="recipe_name" class="block text-sm font-medium text-gray-700">Name</label>
-    <input
-      id="recipe_name"
-      type="text"
-      bind:value={recipeNameInput}
-      class="mt-0 block w-60 px-0.5 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black"
-    />
-  </div>
-</Dialog>

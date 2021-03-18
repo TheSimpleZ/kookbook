@@ -20,7 +20,7 @@
   $: selectMode = !isEmpty(selectedRecipes)
 
   function addNewRecipe(userId) {
-    const currentDateTime = firebase.firestore.Timestamp.now()
+    const currentDateTime = firebase.firestore.FieldValue.serverTimestamp()
     recipesRef.add({
       createdAt: currentDateTime,
       updatedAt: currentDateTime,
@@ -30,7 +30,6 @@
   }
 
   function isEmpty(obj) {
-    console.log(obj)
     return obj && Object.keys(obj).length === 0 && obj.constructor === Object
   }
 </script>
@@ -66,24 +65,24 @@
         recipesRef = e.detail.ref
       }}
     >
-      <GridList items={recipes} let:item let:index>
+      <GridList items={recipes} let:item>
         <Card
           bind:selectMode
-          on:change={({ detail }) => {
-            if (detail) {
+          on:change={({ detail: selected }) => {
+            if (selected) {
               selectedRecipes[item.id] = item
             } else {
-              const { [item.id]: unselectedRecipe, ...rest } = selectedRecipes
+              const { [item.id]: _unselectedRecipe, ...rest } = selectedRecipes
               selectedRecipes = rest
             }
           }}
           on:click={() => $goto('/:id', { id: item.id })}
         >
           <div class="flex flex-col p-3">
-            <h3 class="mr-10 text-sm truncate-2nd">
+            <h3 class="text-sm truncate-2nd">
               {item.name}
             </h3>
-            <p class="text-xs text-gray-500">
+            <p class="text-xs text-gray-500 line-clamp-1">
               <Doc path={`users/${item.creator}`} let:data={owner}>
                 {owner.displayName} •
                 <span
@@ -100,10 +99,7 @@
         </Card>
       </GridList>
 
-      <ShareDialog
-        bind:visible={showShareDialog}
-        recipe={recipes?.find((r) => Object.values(selectedRecipes)[0]?.id == r.id)}
-      />
+      <ShareDialog bind:visible={showShareDialog} recipes={Object.values(selectedRecipes)} />
     </Collection>
   </Collection>
 </User>

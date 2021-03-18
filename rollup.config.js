@@ -8,6 +8,7 @@ import sveltePreprocess from 'svelte-preprocess'
 import json from '@rollup/plugin-json'
 import replace from 'rollup-plugin-replace'
 import Hmr from 'rollup-plugin-hot'
+const createPreprocessors = require('./svelte.config').createPreprocessors
 
 const isNollup = !!process.env.NOLLUP
 const production = !process.env.ROLLUP_WATCH
@@ -28,10 +29,7 @@ export default {
         dev: !production,
         css: false,
       },
-      preprocess: sveltePreprocess({
-        sourceMap: !production,
-        postcss: true,
-      }),
+      preprocess: createPreprocessors(production),
       emitCss: true,
       hot: isNollup,
     }),
@@ -59,7 +57,7 @@ export default {
     // If we're building for production (npm run build
     // instead of npm run dev), minify
     production && terser(),
-    !production && isNollup && Hmr({ inMemory: true, public: 'public', write: true }), // refresh only updated code
+    !production && isNollup && Hmr({ inMemory: true, public: 'public' }), // refresh only updated code
     {
       // provide node environment on the client
       transform: (code) => ({
