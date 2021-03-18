@@ -15,10 +15,10 @@
   let selectedRecipes = {}
   let sortBy
   let recipes
-  let recipesRef
+
   let showShareDialog = false
   let showNameDialog = false
-  const roles = ['creator', 'readers', 'writers']
+  // const roles = ['creator', 'readers', 'writers']
   $: selectMode = !isEmpty(selectedRecipes)
 
   function isEmpty(obj) {
@@ -55,9 +55,7 @@
       on:data={(e) => {
         recipes = [...e.detail.data, ...readableRecipes]
       }}
-      on:ref={(e) => {
-        recipesRef = e.detail.ref
-      }}
+      let:ref
     >
       <GridList items={recipes} let:item>
         <Card
@@ -97,7 +95,7 @@
       <ChooseNameDialog
         on:ok={({ detail: name }) => {
           const currentDateTime = firebase.firestore.FieldValue.serverTimestamp()
-          recipesRef.add({
+          ref.add({
             createdAt: currentDateTime,
             updatedAt: currentDateTime,
             creator: user.uid,
