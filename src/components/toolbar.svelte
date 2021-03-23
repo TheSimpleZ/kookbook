@@ -5,12 +5,13 @@
 
   const dispatch = createEventDispatcher()
 
-  export let orderBy
+  export let orderByProperty
   export let selectMode = false
-  export let sortBy
+  export let multiSelect = false
+  export let sortOrder
 
   let sortByCheckbox = false
-  $: sortBy = sortByCheckbox ? 'desc' : 'asc'
+  $: sortOrder = sortByCheckbox ? 'desc' : 'asc'
 </script>
 
 <div class="flex items-stretch divide-x-2 shadow">
@@ -20,18 +21,18 @@
 
   <div class="toolbarItem">
     <select
-      bind:value={orderBy}
-      name="orderBy"
+      bind:value={orderByProperty}
+      name="orderByProperty"
       class="self-end text-sm border-0 border-b border-gray-400 focus:border-b focus:border-gray-400 "
     >
       <option value="createdAt" selected>Created at</option>
       <option value="name">Alphabetically</option>
     </select>
     <label class="self-end" for="sort" use:tippy={{ content: sortByCheckbox ? 'Descending' : 'Ascending' }}>
-      {#if sortBy == 'asc'}
-        <SortAscending size="20" solid class="icon" />
+      {#if sortOrder == 'asc'}
+        <SortAscending size="24" class="icon" />
       {:else}
-        <SortDescending size="20" solid class="icon" />
+        <SortDescending size="24" class="icon" />
       {/if}
     </label>
     <input type="checkbox" name="sort" id="sort" class="hidden ml-1" bind:checked={sortByCheckbox} />
@@ -40,6 +41,7 @@
   <span class="flex ml-auto divide-x-2" class:invisible={!selectMode}>
     <button
       class="toolbarItem toolbarButton"
+      class:hidden={multiSelect}
       on:click={(e) => dispatch('shareClick', e)}
       use:tippy={{ content: 'Share' }}
     >

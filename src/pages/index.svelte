@@ -10,11 +10,17 @@
   import ShareDialog from '../components/shareDialog.svelte'
   import { firebase } from '../libs/firebase'
   import ChooseNameDialog from '../components/chooseNameDialog.svelte'
+  import orderBy from 'lodash.orderby'
 
-  let orderBy = 'createdAt'
+  const recipeSorters = {
+    name: (r) => r.name.toLowerCase(),
+  }
+
+  let orderByProperty = 'createdAt'
   let selectedRecipes = {}
-  let sortBy
-  let recipes
+  let sortOrder
+  let recipeCollection
+  $: recipes = orderBy(recipeCollection, [recipeSorters[orderByProperty] || orderByProperty], sortOrder)
 
   let showShareDialog = false
   let showNameDialog = false
@@ -30,9 +36,10 @@
 
 <User persist={localStorage} let:user>
   <Toolbar
-    bind:selectMode
-    bind:sortBy
-    bind:orderBy
+    {selectMode}
+    multiSelect={Object.keys(selectedRecipes).length > 1}
+    bind:sortOrder
+    bind:orderByProperty
     on:newRecipeClick={() => {
       showNameDialog = true
     }}
@@ -51,9 +58,9 @@
   >
     <Collection
       path="recipes"
-      query={(ref) => ref.where(`creator`, '==', user.uid).orderBy(orderBy, sortBy)}
+      query={(ref) => ref.where(`creator`, '==', user.uid)}
       on:data={(e) => {
-        recipes = [...e.detail.data, ...readableRecipes]
+        recipeCollection = [...e.detail.data, ...readableRecipes]
       }}
       let:ref
     >
