@@ -16,7 +16,7 @@ module.exports = defineConfig(({ command, mode }) => {
       minify: isProduction,
     },
     optimizeDeps: {
-      include: ['svelte-hero-icons'],
+      include: ['svelte-hero-icons', 'ckeditor5-custom-build'],
       exclude: ['@roxi/routify'],
     },
   }

@@ -23,7 +23,7 @@
     <select
       bind:value={orderByProperty}
       name="orderByProperty"
-      class="self-end text-sm border-0 border-b border-gray-400 focus:border-b focus:border-gray-400 "
+      class="self-end text-sm border-t-0 border-b border-l-0 border-r-0 border-gray-400 focus:border-b focus:border-gray-400 "
     >
       <option value="createdAt" selected>Created at</option>
       <option value="name">Alphabetically</option>
