@@ -10,10 +10,7 @@
 </FirebaseApp>
 
 <style global>
-  @import '../node_modules/tippy.js/dist/tippy.css';
-  @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
+  @import 'tippy.js/dist/tippy.css';
 
   @layer components {
     .icon {

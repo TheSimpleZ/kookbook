@@ -1,18 +1,9 @@
-// svelte.config.js
-const sveltePreprocess = require('svelte-preprocess')
-
-// using sourceMap as an example, but could be anything you need dynamically
-function createPreprocessors(production) {
-  return sveltePreprocess({
-    sourceMap: !production,
-    postcss: true,
-    defaults: {
-      style: 'postcss',
-    },
-  })
-}
+const { preprocess: windicssPreprocess } = require('svelte-windicss-preprocess')
 
 module.exports = {
-  preprocess: createPreprocessors(false),
-  createPreprocessors,
+  preprocess: [
+    windicssPreprocess({
+      compile: false,
+    }),
+  ],
 }
