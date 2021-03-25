@@ -20,10 +20,11 @@
   $: ({ user } = scoped)
 
   let orderByProperty = 'createdAt'
-  let selectedRecipes = {}
+  let selectedRecipeIds = new Set()
   let sortOrder
-  let recipeCollection
-  $: recipes = orderBy(recipeCollection, [recipeSorters[orderByProperty] || orderByProperty], sortOrder)
+  let unorderedRecipes
+  $: recipes = orderBy(unorderedRecipes, [recipeSorters[orderByProperty] || orderByProperty], sortOrder)
+  $: selectedRecipes = recipes.filter((r) => selectedRecipeIds.has(r.id))
 
   let showShareDialog = false
   let showNameDialog = false
@@ -58,7 +59,7 @@
     path="recipes"
     query={(ref) => ref.where(`creator`, '==', user.uid)}
     on:data={(e) => {
-      recipeCollection = [...e.detail.data, ...readableRecipes]
+      unorderedRecipes = [...e.detail.data, ...readableRecipes]
     }}
     let:ref
   >
@@ -67,11 +68,11 @@
         bind:selectMode
         on:change={({ detail: selected }) => {
           if (selected) {
-            selectedRecipes[item.id] = item
+            selectedRecipeIds.add(item.id)
           } else {
-            const { [item.id]: _unselectedRecipe, ...rest } = selectedRecipes
-            selectedRecipes = rest
+            selectedRecipeIds.delete(item.id)
           }
+          selectedRecipeIds = selectedRecipeIds
         }}
         on:click={() => $goto('/:id', { id: item.id })}
       >
@@ -96,7 +97,7 @@
       </Card>
     </GridList>
 
-    <ShareDialog bind:visible={showShareDialog} recipe={Object.values(selectedRecipes)[0]} />
+    <ShareDialog bind:visible={showShareDialog} recipe={selectedRecipes[0]} />
     <ChooseNameDialog
       on:ok={({ detail: name }) => {
         const currentDateTime = firebase.firestore.FieldValue.serverTimestamp()
@@ -109,5 +110,7 @@
       }}
       bind:visible={showNameDialog}
     />
+
+    <div slot="loading">Loading..</div>
   </Collection>
 </Collection>

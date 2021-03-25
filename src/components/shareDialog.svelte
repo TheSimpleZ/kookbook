@@ -64,10 +64,10 @@
       class="mt-0 block w-60 px-0.5 border-0 border-b-2 border-gray-200 focus:ring-0 focus:outline-none"
     />
     <div class="flex gap-2 mt-4">
-      <label for="reader" class="block text-sm font-medium text-gray-700">Reader</label>
-      <input id="reader" type="checkbox" bind:checked={inviteReader} />
-      <label for="writer" class="block text-sm font-medium text-gray-700">Writer</label>
-      <input id="writer" type="checkbox" bind:checked={inviteWriter} />
+      <label for="reader" class="checkbox-label">Reader</label>
+      <input id="reader" type="checkbox" class="rounded" bind:checked={inviteReader} />
+      <label for="writer" class="checkbox-label">Writer</label>
+      <input id="writer" type="checkbox" class="rounded" bind:checked={inviteWriter} />
     </div>
 
     <Collection path="users" query={(ref) => startsWithQuery(ref, 'displayName')} let:data={usersByName}>
@@ -81,3 +81,9 @@
     </Collection>
   </div>
 </Dialog>
+
+<style lang="postcss">
+  .checkbox-label {
+    @apply block text-sm font-medium text-gray-700;
+  }
+</style>

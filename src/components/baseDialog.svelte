@@ -1,7 +1,7 @@
 <script>
   // https://github.com/fouita/svelte-tw-dialog#readme
   import { fade } from 'svelte/transition'
-  import { X } from 'svelte-hero-icons'
+  import Icon, { X } from 'svelte-hero-icons'
   import { onMount } from 'svelte'
   export let visible = false
   export let color = 'indigo'
@@ -151,7 +151,7 @@
           mr-2 cursor-pointer"
           on:click={close}
         >
-          <X size="20" />
+          <Icon src={X} size="20" class="icon" />
         </div>
       {/if}
       <slot>
