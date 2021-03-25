@@ -5,7 +5,7 @@
   const dispatch = createEventDispatcher()
 
   export let visible
-  export let initialValue
+  export let initialValue = null
   let value
 
   $: if (visible) {

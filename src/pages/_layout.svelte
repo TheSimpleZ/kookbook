@@ -15,7 +15,7 @@
         once
       />
 
-      <slot />
+      <slot scoped={{ user }} />
 
       <div slot="signed-out">
         <Login />
