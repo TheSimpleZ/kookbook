@@ -3,7 +3,7 @@
 
   import CkEditor from '../components/ckeditor.svelte'
   import { Doc } from 'sveltefire'
-  import { Pencil } from 'svelte-hero-icons'
+  import Icon, { Pencil } from 'svelte-hero-icons'
   import Header from '../components/header.svelte'
   import { Storage, firebase } from '../libs/firebase'
   import tippy from 'tippy.js'
@@ -42,7 +42,7 @@
             placement: 'bottom',
           }}
         >
-          <Pencil size="20" class="icon" />
+          <Icon src={Pencil} size="20" class="icon" />
         </button>
       </div>
     </Header>
