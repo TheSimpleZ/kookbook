@@ -36,8 +36,8 @@
       })
   }}
 >
-  <Doc path={`users/${recipe.creator}`} let:data={creator}>
-    <p>Creator: {creator.displayName}</p>
+  <Doc path={`users/${recipe.createdBy}`} let:data={creator}>
+    <p>Created by: {creator.displayName}</p>
   </Doc>
 
   <ul>

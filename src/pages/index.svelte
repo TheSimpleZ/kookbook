@@ -57,7 +57,7 @@
 <Collection path="recipes" query={(ref) => ref.where(`readers`, 'array-contains', user.uid)} let:data={readableRecipes}>
   <Collection
     path="recipes"
-    query={(ref) => ref.where(`creator`, '==', user.uid)}
+    query={(ref) => ref.where(`createdBy`, '==', user.uid)}
     on:data={(e) => {
       unorderedRecipes = [...e.detail.data, ...readableRecipes]
     }}
@@ -81,7 +81,7 @@
             {item.name}
           </h3>
           <p class="text-xs text-gray-500 line-clamp-1">
-            <Doc path={`users/${item.creator}`} let:data={owner}>
+            <Doc path={`users/${item.createdBy}`} let:data={owner}>
               {owner.displayName} •
               <span
                 use:tippy={{
@@ -104,7 +104,7 @@
         ref.add({
           createdAt: currentDateTime,
           updatedAt: currentDateTime,
-          creator: user.uid,
+          createdBy: user.uid,
           name,
         })
       }}

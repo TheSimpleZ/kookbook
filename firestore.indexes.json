@@ -5,7 +5,7 @@
       "queryScope": "COLLECTION",
       "fields": [
         {
-          "fieldPath": "creator",
+          "fieldPath": "createdBy",
           "order": "ASCENDING"
         },
         {
@@ -19,7 +19,7 @@
       "queryScope": "COLLECTION",
       "fields": [
         {
-          "fieldPath": "creator",
+          "fieldPath": "createdBy",
           "order": "ASCENDING"
         },
         {
@@ -33,7 +33,7 @@
       "queryScope": "COLLECTION",
       "fields": [
         {
-          "fieldPath": "creator",
+          "fieldPath": "createdBy",
           "order": "ASCENDING"
         },
         {
@@ -47,7 +47,7 @@
       "queryScope": "COLLECTION",
       "fields": [
         {
-          "fieldPath": "creator",
+          "fieldPath": "createdBy",
           "order": "ASCENDING"
         },
         {

@@ -6,22 +6,22 @@ service cloud.firestore {
       return (request.auth.uid != null)
     }
 
-    function isCreator() {
-      return isSignedIn() && resource.data.creator == request.auth.uid;
+    function isCreatedByUserRead() {
+      return isSignedIn() && resource.data.createdBy == request.auth.uid;
     }
 
     function isReader() {
-      return isSignedIn() && request.auth.uid in resource.data.readers || isCreator();
+      return isSignedIn() && request.auth.uid in resource.data.readers || isCreatedByUserRead();
     }
 
-    function userIsCreator() {
-      return isSignedIn() && request.resource.data.creator == request.auth.uid;
+    function isCreatedByUserWrite() {
+      return isSignedIn() && request.resource.data.createdBy == request.auth.uid;
     }
 
     match /recipes/{recipe} {
-      allow delete: if isCreator();
-      allow update: if isCreator();
-      allow create: if userIsCreator();
+      allow delete: if isCreatedByUserRead();
+      allow update: if isCreatedByUserRead();
+      allow create: if isCreatedByUserWrite();
       allow read: if isReader();
     }
 
