@@ -14,6 +14,10 @@ module.exports = defineConfig(({ command, mode }) => {
     ],
     build: {
       minify: isProduction,
+      commonjsOptions: {
+        exclude: ['ckeditor/*'],
+      },
+      chunkSizeWarningLimit: 1000,
     },
     optimizeDeps: {
       include: ['svelte-hero-icons', 'ckeditor5-custom-build'],
