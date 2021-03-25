@@ -19,21 +19,15 @@
   export let scoped
   $: ({ user } = scoped)
 
+  let showShareDialog = false
+  let showNameDialog = false
   let orderByProperty = 'createdAt'
   let selectedRecipeIds = new Set()
   let sortOrder
   let unorderedRecipes
   $: recipes = orderBy(unorderedRecipes, [recipeSorters[orderByProperty] || orderByProperty], sortOrder)
   $: selectedRecipes = recipes.filter((r) => selectedRecipeIds.has(r.id))
-
-  let showShareDialog = false
-  let showNameDialog = false
-  // const roles = ['creator', 'readers', 'writers']
-  $: selectMode = !isEmpty(selectedRecipes)
-
-  function isEmpty(obj) {
-    return obj && Object.keys(obj).length === 0 && obj.constructor === Object
-  }
+  $: selectMode = selectedRecipeIds.size > 0
 </script>
 
 <Header />

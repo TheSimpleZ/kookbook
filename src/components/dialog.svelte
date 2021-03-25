@@ -8,7 +8,7 @@
 <Dialog bind:visible inverted {...$$props}>
   <div class="flex flex-col p-7">
     <slot />
-    <div class="flex justify-end gap-4 mt-10">
+    <div class="flex justify-end gap-4 mt-4">
       <button class="text-red-500 dialogBtn hover:text-red-400 hover:bg-gray-100" on:click={() => dispatch('cancel')}
         >Cancel</button
       >

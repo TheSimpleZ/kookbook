@@ -55,7 +55,7 @@
     {/each}
   </ul>
 
-  <div class="flex flex-col mt-10">
+  <div class="flex flex-col mt-10 mb-5">
     <label for="recipe_name" class="block text-sm font-medium text-gray-700">Invite by name or email</label>
     <input
       id="recipe_name"
