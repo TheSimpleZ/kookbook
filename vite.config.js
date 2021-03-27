@@ -1,6 +1,7 @@
 const svelte = require('@sveltejs/vite-plugin-svelte')
 const { defineConfig } = require('vite')
 const vitePluginWindicss = require('vite-plugin-windicss').default
+const path = require('path');
 
 module.exports = defineConfig(({ command, mode }) => {
   const isProduction = mode === 'production'
@@ -18,6 +19,11 @@ module.exports = defineConfig(({ command, mode }) => {
         exclude: ['ckeditor/*'],
       },
       chunkSizeWarningLimit: 1000,
+    },
+    resolve: {
+      alias: [
+        { find: "@", replacement: path.resolve(__dirname, 'src') }
+      ]
     },
     optimizeDeps: {
       include: ['svelte-hero-icons', 'ckeditor5-custom-build'],

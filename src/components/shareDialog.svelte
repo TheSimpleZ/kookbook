@@ -1,78 +1,128 @@
 <script>
-  import Dialog from '../components/dialog.svelte'
+  import Dialog from '@/components/dialog.svelte'
   import { Collection, Doc } from 'sveltefire'
+  import { firebase } from '@/libs/firebase'
   import uniqby from 'lodash.uniqby'
+  import Icon, { Check, Plus, X, Trash } from 'svelte-hero-icons'
+  import DialogBtn from '@/components/dialogBtn.svelte'
 
   export let visible
   export let recipe
 
   let inviteInput = ''
-  let inviteReader = false
   let inviteWriter = false
-  let collaboratorsList
+  let collaboratorsDataList
 
   $: endOfSearchString = inviteInput.replace(/.$/, (c) => String.fromCharCode(c.charCodeAt(0) + 1))
   $: readers = recipe?.readers || []
   $: writers = recipe?.writers || []
+  $: collaboratorIds = [...new Set([...readers, ...writers])]
+
   function startsWithQuery(ref, field) {
     const query = ref.limit(10)
 
     return inviteInput ? query.where(field, '>=', inviteInput).where(field, '<', endOfSearchString) : query
   }
+
+  function closeDialog() {
+    visible = false
+    inviteInput = ''
+  }
 </script>
 
-<Dialog
-  title="Share"
-  bind:visible
-  on:cancel={() => {
-    visible = false
-  }}
-  on:ok={() => {
-    const inviteUserId = collaboratorsList.querySelector("option[value='" + inviteInput + "']").dataset.value
-    if (inviteUserId && (inviteReader || inviteWriter))
-      recipe.ref.update({
-        ...(inviteReader && { readers: [...readers, inviteUserId] }),
-        ...(inviteWriter && { writers: [...writers, inviteUserId] }),
-      })
-  }}
->
-  <Doc path={`users/${recipe.createdBy}`} let:data={creator}>
-    <p>Created by: {creator.displayName}</p>
-  </Doc>
-
-  <ul>
-    <li>Readers:</li>
-    {#each readers as readerId}
-      <Doc path={`users/${readerId}`} let:data={reader}>
-        <li>{reader.displayName}</li>
-      </Doc>
-    {/each}
-    <li>Writers:</li>
-    {#each writers as writerId}
-      <Doc path={`users/${writerId}`} let:data={writer}>
-        <li>{writer.displayName}</li>
-      </Doc>
-    {/each}
-  </ul>
+<Dialog title="Share" bind:visible on:cancel={closeDialog} on:ok={closeDialog}>
+  <table class="table-auto">
+    <thead>
+      <tr>
+        <th class="px-6 py-3 text-left">Shared with</th>
+        <th class="px-6 py-3 text-left">Editor</th>
+      </tr>
+    </thead>
+    <tbody>
+      {#if collaboratorIds.length > 0}
+        <Collection
+          path="users"
+          query={(ref) => ref.where(firebase.firestore.FieldPath.documentId(), 'in', collaboratorIds)}
+          let:data={collaborators}
+        >
+          {#each collaborators as collaborator}
+            <tr class="border-b">
+              <td class="px-6 py-3 text-left">{collaborator.displayName}</td>
+              <td class="px-6 py-3 text-left">
+                <DialogBtn
+                  className="p-1"
+                  on:click={() => {
+                    let newWriters
+                    if (writers.includes(collaborator.id)) {
+                      newWriters = writers.filter((w) => w !== collaborator.id)
+                    } else {
+                      newWriters = [...writers, collaborator.id]
+                    }
+                    recipe.ref.update({
+                      writers: newWriters,
+                    })
+                  }}
+                >
+                  {#if writers.includes(collaborator.id)}
+                    <Icon src={Check} size="20" class="icon" />
+                  {:else}
+                    <Icon src={X} size="20" class="icon" />
+                  {/if}
+                </DialogBtn>
+              </td>
+              <td class="px-6 py-3 text-left">
+                <DialogBtn
+                  className="p-1"
+                  on:click={() => {
+                    recipe.ref.update({
+                      writers: writers.filter((w) => w !== collaborator.id),
+                      readers: readers.filter((w) => w !== collaborator.id),
+                    })
+                  }}
+                >
+                  <Icon src={Trash} size="20" class="icon" />
+                </DialogBtn>
+              </td>
+            </tr>
+          {/each}
+        </Collection>
+      {/if}
+    </tbody>
+  </table>
 
   <div class="flex flex-col mt-10 mb-5">
     <label for="recipe_name" class="block text-sm font-medium text-gray-700">Invite by name or email</label>
-    <input
-      id="recipe_name"
-      list="collaborators"
-      bind:value={inviteInput}
-      class="mt-0 block w-60 px-0.5 border-0 border-b-2 border-gray-200 focus:ring-0 focus:outline-none"
-    />
+    <span class="flex">
+      <input
+        id="recipe_name"
+        list="collaborators"
+        bind:value={inviteInput}
+        class="mt-0 block w-60 px-0.5 border-0 border-b-2 border-gray-200 focus:ring-0 focus:outline-none"
+      />
+      <DialogBtn
+        className="flex items-center py-1 pr-2 ml-3"
+        on:click={() => {
+          const inviteUserId = collaboratorsDataList.querySelector("option[value='" + inviteInput + "']").dataset.value
+          if (inviteUserId) {
+            inviteInput = ''
+            recipe.ref.update({
+              readers: [...readers, inviteUserId],
+              ...(inviteWriter && { writers: [...writers, inviteUserId] }),
+            })
+          }
+        }}
+      >
+        <Icon src={Plus} size="20" class="icon" />Add
+      </DialogBtn>
+    </span>
     <div class="flex gap-2 mt-4">
-      <label for="reader" class="checkbox-label">Reader</label>
-      <input id="reader" type="checkbox" class="rounded" bind:checked={inviteReader} />
-      <label for="writer" class="checkbox-label">Writer</label>
+      <label for="writer" class="checkbox-label">Allow user to edit</label>
       <input id="writer" type="checkbox" class="rounded" bind:checked={inviteWriter} />
     </div>
 
     <Collection path="users" query={(ref) => startsWithQuery(ref, 'displayName')} let:data={usersByName}>
       <Collection path="users" query={(ref) => startsWithQuery(ref, 'email')} let:data={usersByEmail}>
-        <datalist bind:this={collaboratorsList} id="collaborators">
+        <datalist bind:this={collaboratorsDataList} id="collaborators">
           {#each uniqby([...usersByName, ...usersByEmail], 'id') as user}
             <option data-value={user.id}>{`${user.displayName} <${user.email}>`}</option>
           {/each}
@@ -80,6 +130,11 @@
       </Collection>
     </Collection>
   </div>
+  <span slot="footer" class="flex items-center mr-auto">
+    <Doc path={`users/${recipe.createdBy}`} let:data={creator}>
+      <p class="text-xs text-gray-400">Recipe created by: {creator.displayName}</p>
+    </Doc>
+  </span>
 </Dialog>
 
 <style lang="postcss">

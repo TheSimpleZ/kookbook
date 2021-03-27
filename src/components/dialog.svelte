@@ -1,6 +1,7 @@
 <script>
   import Dialog from '../components/baseDialog.svelte'
   import { createEventDispatcher } from 'svelte'
+  import DialogBtn from '@/components/dialogBtn.svelte'
   const dispatch = createEventDispatcher()
   export let visible
 </script>
@@ -8,24 +9,16 @@
 <Dialog bind:visible inverted {...$$props}>
   <div class="flex flex-col p-7">
     <slot />
-    <div class="flex justify-end gap-4 mt-4">
-      <button class="text-red-500 dialogBtn hover:text-red-400 hover:bg-gray-100" on:click={() => dispatch('cancel')}
-        >Cancel</button
+    <div class="flex justify-end gap-2 mt-4">
+      <slot name="footer" />
+      <DialogBtn className="text-red-500 hover:text-red-400 p-2 px-3 min-w-15" on:click={() => dispatch('cancel')}
+        >Cancel</DialogBtn
       >
       <slot name="ok_button">
-        <button
-          class="text-indigo-500 bg-transparent dialogBtn hover:bg-gray-100 hover:text-indigo-400"
-          on:click={() => dispatch('ok')}
-        >
+        <DialogBtn className="text-indigo-500 hover:text-indigo-400 p-2 px-3 min-w-15" on:click={() => dispatch('ok')}>
           Ok
-        </button>
+        </DialogBtn>
       </slot>
     </div>
   </div>
 </Dialog>
-
-<style lang="postcss">
-  .dialogBtn {
-    @apply p-2 px-3 rounded-lg;
-  }
-</style>
