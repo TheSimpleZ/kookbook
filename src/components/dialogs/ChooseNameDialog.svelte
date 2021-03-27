@@ -31,7 +31,7 @@
     <input
       id="recipe_name"
       type="text"
-      placeholder="A fancy recipe name..."
+      placeholder="A fancy name..."
       bind:value
       class="mt-0 block w-60 px-0.5 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black"
     />

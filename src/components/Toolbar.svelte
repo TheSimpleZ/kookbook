@@ -18,7 +18,7 @@
 
 <div class="flex items-stretch divide-x-2 shadow">
   <button class="toolbarItem toolbarButton" on:click={(e) => dispatch('newRecipeClick', e)}>
-    <Icon src={Plus} size="20" class="mr-3 icon" />New recipe
+    <Icon src={Plus} size="20" class="mr-3 icon" />New
   </button>
 
   <div class="toolbarItem">
