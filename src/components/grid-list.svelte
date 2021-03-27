@@ -1,10 +1,13 @@
 <script>
+  import { fade } from 'svelte/transition'
   export let items = []
 </script>
 
 <div class="grid w-screen gap-4 p-10 auto-fill-15">
   {#each items as item, index}
-    <slot {item} {index} />
+    <span transition:fade={{ delay: index * 100 }}>
+      <slot {item} {index} />
+    </span>
   {/each}
 </div>
 

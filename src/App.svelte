@@ -9,12 +9,15 @@
   <Router {routes} />
 </FirebaseApp>
 
-<style global>
+<style global lang="postcss">
   @import 'tippy.js/dist/tippy.css';
 
-  @layer components {
-    .icon {
-      @apply mx-1 inline-block;
-    }
+  :global(.icon) {
+    @apply mx-1 inline-block;
+  }
+
+  :global(html, body, #routify-app) {
+    width: 100%;
+    height: 100%;
   }
 </style>

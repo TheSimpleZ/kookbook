@@ -3,7 +3,7 @@
   import { Collection, Doc } from 'sveltefire'
   import { firebase } from '@/libs/firebase'
   import uniqby from 'lodash.uniqby'
-  import Icon, { Check, Plus, X, Trash } from 'svelte-hero-icons'
+  import Icon, { Check, Plus, X, Ban } from 'svelte-hero-icons'
   import DialogBtn from '@/components/dialogBtn.svelte'
 
   export let visible
@@ -80,7 +80,7 @@
                     })
                   }}
                 >
-                  <Icon src={Trash} size="20" class="icon" />
+                  <Icon src={Ban} size="20" class="icon" />
                 </DialogBtn>
               </td>
             </tr>
