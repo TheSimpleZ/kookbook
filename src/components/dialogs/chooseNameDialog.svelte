@@ -1,5 +1,5 @@
 <script>
-  import Dialog from '../components/dialog.svelte'
+  import Dialog from './dialog.svelte'
   import { createEventDispatcher } from 'svelte'
 
   const dispatch = createEventDispatcher()

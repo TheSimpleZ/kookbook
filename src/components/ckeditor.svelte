@@ -4,10 +4,18 @@
   import FirebaseStorageAdapter from '../libs/firebaseStorageAdapter'
 
   export let saveData
+  export let isReadOnly = true
   export let initialData
   export let imageUploadPath = ''
   export let placeholder = ''
   let editorElement
+  let editor
+  $: setReadOnly = (readOnly) => {
+    if (editor) {
+      editor.isReadOnly = readOnly
+    }
+  }
+  $: setReadOnly(isReadOnly)
   const dispatch = createEventDispatcher()
 
   const config = {
@@ -15,8 +23,11 @@
     placeholder,
     autosave: {
       save(editor) {
-        return saveData(editor.getData())
+        if (!isReadOnly) {
+          return saveData(editor.getData())
+        }
       },
+      waitingTime: 2000,
     },
     toolbar: {
       items: ['bold', 'italic', 'underline', 'link'],
@@ -50,7 +61,7 @@
   }
 
   onMount(async () => {
-    const editor = await BalloonBlockEditor.create(editorElement, config)
+    editor = await BalloonBlockEditor.create(editorElement, config)
     editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
       return new FirebaseStorageAdapter(loader, imageUploadPath)
     }

@@ -1,10 +1,10 @@
 <script>
-  import Dialog from '@/components/dialog.svelte'
+  import Dialog from './dialog.svelte'
   import { Collection, Doc } from 'sveltefire'
   import { firebase } from '@/libs/firebase'
   import uniqby from 'lodash.uniqby'
   import Icon, { Check, Plus, X, Ban } from 'svelte-hero-icons'
-  import DialogBtn from '@/components/dialogBtn.svelte'
+  import DialogBtn from './dialogBtn.svelte'
 
   export let visible
   export let recipe

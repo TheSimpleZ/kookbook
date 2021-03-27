@@ -7,10 +7,10 @@
   import tippy from 'tippy.js'
   import { goto } from '@roxi/routify'
   import Toolbar from '@/components/toolbar.svelte'
-  import ShareDialog from '@/components/shareDialog.svelte'
+  import ShareDialog from '@/components/dialogs/shareDialog.svelte'
   import { firebase } from '@/libs/firebase'
-  import ChooseNameDialog from '@/components/chooseNameDialog.svelte'
-  import AddToBookDialog from '@/components/addToBookDialog.svelte'
+  import ChooseNameDialog from '@/components/dialogs/chooseNameDialog.svelte'
+  import AddToBookDialog from '@/components/dialogs/addToBookDialog.svelte'
   import { SpinLine } from 'svelte-loading-spinners'
   import orderBy from 'lodash.orderby'
 
@@ -107,7 +107,7 @@
       </GridList>
 
       <ShareDialog bind:visible={showShareDialog} recipe={selectedRecipes[0]} />
-      <AddToBookDialog bind:visible={showAddToBookDialog} />
+      <AddToBookDialog bind:visible={showAddToBookDialog} {user} />
       <ChooseNameDialog
         on:ok={({ detail: name }) => {
           const currentDateTime = firebase.firestore.FieldValue.serverTimestamp()

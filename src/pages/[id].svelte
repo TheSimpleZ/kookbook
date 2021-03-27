@@ -1,5 +1,5 @@
 <script>
-  import RenameDialog from '../components/chooseNameDialog.svelte'
+  import RenameDialog from '../components/dialogs/chooseNameDialog.svelte'
 
   import CkEditor from '../components/ckeditor.svelte'
   import { Doc } from 'sveltefire'
@@ -9,18 +9,22 @@
   import tippy from 'tippy.js'
 
   export let id
+  export let scoped
+  $: ({ user } = scoped)
+
   let showRenameDialog = false
 
   const documentPath = `recipes/${id}`
+  let editMode = false
 
-  const saveRecipe = (ref) => (data) => {
-    return ref.update({
+  const saveRecipe = (ref) => (data) =>
+    ref.update({
       updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
       contents: data,
     })
-  }
-  function openRenameDialog() {
-    showRenameDialog = !showRenameDialog
+
+  function toggleEditMode(recipe) {
+    if (recipe.writers?.includes(user.uid) || recipe.createdBy === user.uid) editMode = !editMode
   }
 
   function removeDeletedImages({ detail: urls }) {
@@ -36,9 +40,11 @@
       <div class="flex items-baseline justify-center flex-1">
         <h1 class="mx-2 text-3xl font-bold">{recipe.name}</h1>
         <button
-          on:click={openRenameDialog}
+          class="flex items-center justify-center rounded focus:outline-none ring-black py-0.5"
+          class:ring-2={editMode}
+          on:click={() => toggleEditMode(recipe)}
           use:tippy={{
-            content: 'Rename',
+            content: 'Edit recipe',
             placement: 'bottom',
           }}
         >
@@ -49,7 +55,8 @@
 
     <article class="flex items-stretch flex-grow w-3/4 mx-auto mt-2 prose lg:prose-lg">
       <CkEditor
-        saveData={saveRecipe(ref)}
+        isReadOnly={!editMode}
+        saveData={saveRecipe(ref, recipe)}
         initialData={recipe.contents}
         imageUploadPath={documentPath + '/'}
         placeholder="Enter your recipe here..."

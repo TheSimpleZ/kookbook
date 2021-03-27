@@ -25,6 +25,13 @@ service cloud.firestore {
       allow read: if isReader();
     }
 
+    match /books/{book} {
+      allow delete: if isCreatedByUserRead();
+      allow update: if isCreatedByUserRead();
+      allow create: if isCreatedByUserWrite();
+      allow read: if isReader();
+    }
+
     match /users/{userId} {
       allow read, write: if isSignedIn();
     }

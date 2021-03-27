@@ -1,7 +1,7 @@
 <script>
-  import Dialog from '../components/baseDialog.svelte'
+  import Dialog from './baseDialog.svelte'
   import { createEventDispatcher } from 'svelte'
-  import DialogBtn from '@/components/dialogBtn.svelte'
+  import DialogBtn from './dialogBtn.svelte'
   const dispatch = createEventDispatcher()
   export let visible
 </script>
