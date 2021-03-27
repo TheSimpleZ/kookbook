@@ -3,7 +3,7 @@
   import { firebase } from '../libs/firebase'
   import { FirebaseApp, User, Doc } from 'sveltefire'
   import { url, layout, isActive } from '@roxi/routify'
-  import Icon, { BookOpen, Logout } from 'svelte-hero-icons'
+  import Icon, { Logout } from 'svelte-hero-icons'
 
   import Login from './_login.svelte'
 </script>
@@ -20,7 +20,7 @@
       <header class="flex items-center w-full p-4 px-8 shadow-md dark:bg-gray-800">
         <nav class="flex items-center gap-4 divide-x">
           <a href="/" class="flex items-center text-xl">
-            <Icon src={BookOpen} size="28" class="mr-2 icon" />Kookbook
+            <object class="mr-2" data="images/chef.svg" width="40" height="40" title="logo" />Kookbook
           </a>
           {#each $layout.children as { path, title }}
             <a
