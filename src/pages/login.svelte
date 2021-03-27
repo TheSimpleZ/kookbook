@@ -1,6 +1,6 @@
 <script>
-  import FirebaseUI from '../components/firebase-ui.svelte'
-  import Header from '../components/header.svelte'
+  import FirebaseUI from '../components/FirebaseUi.svelte'
+  import Header from '../components/Header.svelte'
 </script>
 
 <Header />

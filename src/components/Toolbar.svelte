@@ -1,5 +1,7 @@
 <script>
-  import Icon, { Plus, Trash, XCircle, SortAscending, SortDescending, Share, FolderAdd } from 'svelte-hero-icons'
+  import ToolbarButton from './ToolbarButton.svelte'
+
+  import Icon, { Plus, Trash, SortAscending, SortDescending, Share, FolderAdd } from 'svelte-hero-icons'
   import { createEventDispatcher } from 'svelte'
   import tippy from '../libs/tippySvelte'
 
@@ -65,9 +67,7 @@
       <Icon src={Trash} solid size="20" class="mr-3 icon" />Delete
     </button>
 
-    <button class="toolbarItem toolbarButton" on:click={(e) => dispatch('unselectAll', e)}>
-      Unselect all<Icon src={XCircle} solid size="20" class="ml-3 icon" />
-    </button>
+    <ToolbarButton />
   </span>
 </div>
 
@@ -77,6 +77,6 @@
   }
 
   .toolbarButton {
-    @apply text-gray-600 hover:text-black;
+    @apply text-gray-600 hover:text-black whitespace-nowrap;
   }
 </style>

@@ -1,10 +1,10 @@
 <script>
-  import RenameDialog from '../components/dialogs/chooseNameDialog.svelte'
+  import RenameDialog from '../components/dialogs/ChooseNameDialog.svelte'
 
-  import CkEditor from '../components/ckeditor.svelte'
+  import CkEditor from '../components/Ckeditor.svelte'
   import { Doc } from 'sveltefire'
   import Icon, { Pencil } from 'svelte-hero-icons'
-  import Header from '../components/header.svelte'
+  import Header from '../components/Header.svelte'
   import { Storage, firebase } from '../libs/firebase'
   import tippy from 'tippy.js'
 

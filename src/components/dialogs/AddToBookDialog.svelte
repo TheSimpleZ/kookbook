@@ -1,5 +1,5 @@
 <script>
-  import Dialog from './dialog.svelte'
+  import Dialog from './Dialog.svelte'
   import { Collection } from 'sveltefire'
   import Icon, { Plus } from 'svelte-hero-icons'
   import { firebase } from '@/libs/firebase'
