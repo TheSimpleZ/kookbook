@@ -73,6 +73,7 @@
               <td class="px-6 py-3 text-left">
                 <DialogBtn
                   className="p-1"
+                  tooltip={{ content: 'Stop sharing', placement: 'right' }}
                   on:click={() => {
                     recipe.ref.update({
                       writers: writers.filter((w) => w !== collaborator.id),
