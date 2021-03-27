@@ -31,6 +31,10 @@
   $: recipes = orderBy(unorderedRecipes, [recipeSorters[orderByProperty] || orderByProperty], sortOrder)
   $: selectedRecipes = recipes.filter((r) => selectedRecipeIds.has(r.id))
   $: selectMode = selectedRecipeIds.size > 0
+
+  function gotoRecipe(id) {
+    $goto('/:id', { id })
+  }
 </script>
 
 <div class="flex flex-col h-full">
@@ -79,7 +83,7 @@
             }
             selectedRecipeIds = selectedRecipeIds
           }}
-          on:click={() => $goto('/:id', { id: item.id })}
+          on:click={() => gotoRecipe(item.id)}
         >
           <div class="flex flex-col p-3">
             <h3 class="text-sm truncate-2nd">
