@@ -27,7 +27,12 @@
   let selectedRecipeIds = new Set()
   let sortOrder
   let unorderedRecipes
-  $: recipes = orderBy(unorderedRecipes, [recipeSorters[orderByProperty] || orderByProperty], sortOrder)
+  let selectedCollection
+  $: orderedRecipes = orderBy(unorderedRecipes, [recipeSorters[orderByProperty] || orderByProperty], sortOrder)
+  $: recipes = selectedCollection
+    ? orderedRecipes.filter((r) => r.collections?.includes(selectedCollection))
+    : orderedRecipes
+  $: collections = recipes.filter((r) => r.collections).flatMap((r) => r.collections)
   $: selectedRecipes = recipes.filter((r) => selectedRecipeIds.has(r.id))
   $: selectMode = selectedRecipeIds.size > 0
 
@@ -39,9 +44,12 @@
 <div class="flex flex-col h-full">
   <Toolbar
     {selectMode}
+    {user}
+    {collections}
     multiSelect={Object.keys(selectedRecipes).length > 1}
     bind:sortOrder
     bind:orderByProperty
+    bind:selectedCollection
     on:newRecipeClick={() => {
       showNameDialog = true
     }}
@@ -104,7 +112,7 @@
       </GridList>
 
       <ShareDialog bind:visible={showShareDialog} recipe={selectedRecipes[0]} />
-      <AddToBookDialog bind:visible={showAddToBookDialog} {user} />
+      <AddToBookDialog bind:visible={showAddToBookDialog} {user} {collections} recipes={selectedRecipes} />
       <ChooseNameDialog
         on:ok={({ detail: name }) => {
           const currentDateTime = firebase.firestore.FieldValue.serverTimestamp()

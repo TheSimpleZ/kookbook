@@ -15,7 +15,6 @@
   export let align = 'center' // left center right
   let klass = true
   export { klass as class }
-  export let rounded = 'md'
   export let w = ''
   export let h = ''
   export let absolute = false
@@ -127,7 +126,7 @@
       <div class="absolute z-40 w-full h-full bg-gray-800 opacity-50" on:click={close} use:setFilter />
     {/if}
     <div
-      class="relative max-w-full w-full rounded-{rounded}
+      class="relative max-w-full w-full rounded-md
       overflow-y-auto overflow-x-hidden max-h-full tr {absolute
         ? ''
         : 'bg-white shadow-lg'}
