@@ -116,12 +116,8 @@
 </script>
 
 {#if visible}
-  <div
-    transition:fade={{ duration: 100 }}
-    class="{absolute ? 'absolute' : 'fixed'} z-30 top-0 left-0 flex flex-row w-{w}
-    h-{h}"
-    use:setPosition
-  >
+  <div transition:fade={{ duration: 100 }} class="fixed z-30 top-0 left-0 flex flex-row w-{w}
+    h-{h}" use:setPosition>
     {#if filter}
       <div class="absolute z-40 w-full h-full bg-gray-800 opacity-50" on:click={close} use:setFilter />
     {/if}
@@ -134,8 +130,7 @@
       use:setElmPosition
     >
       {#if title}
-        <div class="w-full font-medium flex text-lg p-3 mr-6 text-{c_color} bg-{bg}
-          border-b">
+        <div class="flex w-full p-3 mr-6 text-lg font-medium text-indigo-700 bg-indigo-100 border-b">
           <slot name="title">
             {#if icon}
               <svelte:component this={icon} class="w-5 h-5 m-1 mr-2" />

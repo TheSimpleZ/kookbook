@@ -3,9 +3,9 @@
   export let items = []
 </script>
 
-<div class="grid w-screen gap-4 p-10 auto-fill-15">
+<div class="grid gap-4 p-10 auto-fill-15">
   {#each items as item, index}
-    <span in:fade={{ delay: index * 30 }}>
+    <span class="max-w-sm" in:fade={{ delay: index * 30 }}>
       <slot {item} {index} />
     </span>
   {/each}

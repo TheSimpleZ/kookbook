@@ -5,7 +5,8 @@
   import timeAgo from '@/libs/timeAgo'
   import tippy from 'tippy.js'
   import { goto } from '@roxi/routify'
-  import Toolbar from '@/components/Toolbar.svelte'
+  // import Toolbar from '@/components/Toolbar.svelte'
+  import Drawer from '@/components/Drawer.svelte'
   import ShareDialog from '@/components/dialogs/ShareDialog.svelte'
   import { firebase } from '@/libs/firebase'
   import ChooseNameDialog from '@/components/dialogs/ChooseNameDialog.svelte'
@@ -41,8 +42,7 @@
   }
 </script>
 
-<div class="flex flex-col h-full">
-  <Toolbar
+<!-- <Toolbar
     {selectMode}
     {user}
     {collections}
@@ -63,7 +63,9 @@
     on:addToBook={() => {
       showAddToBookDialog = true
     }}
-  />
+  /> -->
+<Drawer />
+<div class="ml-10">
   <Collection
     path="recipes"
     query={(ref) => ref.where(`readers`, 'array-contains', user.uid)}

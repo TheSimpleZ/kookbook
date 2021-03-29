@@ -21,7 +21,7 @@
   $: sortOrder = sortByCheckbox ? 'desc' : 'asc'
 </script>
 
-<div class="flex items-stretch divide-x-2 shadow">
+<div class="flex flex-col items-stretch divide-x-2 shadow">
   <button class="toolbarItem toolbarButton" on:click={(e) => dispatch('newRecipeClick', e)}>
     <Icon src={Plus} size="20" class="mr-3 icon" />New
   </button>
@@ -81,7 +81,7 @@
     {/if}
 
     <button class="toolbarItem toolbarButton" on:click={(e) => dispatch('deleteRecipeClick', e)}>
-      <Icon src={Trash} solid size="20" class="mr-3 icon" />Delete
+      <Icon src={Trash} solid size="20" class="mr-3 icon" /><span class="lg:hidden">Delete</span>
     </button>
 
     <ToolbarButton />
