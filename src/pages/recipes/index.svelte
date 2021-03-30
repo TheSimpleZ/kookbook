@@ -8,8 +8,6 @@
   // import Toolbar from '@/components/Toolbar.svelte'
   import Drawer from '@/components/Drawer.svelte'
   import ShareDialog from '@/components/dialogs/ShareDialog.svelte'
-  import { firebase } from '@/libs/firebase'
-  import ChooseNameDialog from '@/components/dialogs/ChooseNameDialog.svelte'
   import AddToBookDialog from '@/components/dialogs/AddToBookDialog.svelte'
   import { SpinLine } from 'svelte-loading-spinners'
   import orderBy from 'lodash.orderby'
@@ -115,18 +113,6 @@
 
       <ShareDialog bind:visible={showShareDialog} recipe={selectedRecipes[0]} />
       <AddToBookDialog bind:visible={showAddToBookDialog} {user} {collections} recipes={selectedRecipes} />
-      <ChooseNameDialog
-        on:ok={({ detail: name }) => {
-          const currentDateTime = firebase.firestore.FieldValue.serverTimestamp()
-          ref.add({
-            createdAt: currentDateTime,
-            updatedAt: currentDateTime,
-            createdBy: user.uid,
-            name,
-          })
-        }}
-        bind:visible={showNameDialog}
-      />
 
       <div class="flex items-center justify-center flex-1" slot="loading">
         <SpinLine size="80" color="#4B5563" unit="rem" duration="6s" />

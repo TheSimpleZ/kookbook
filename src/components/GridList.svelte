@@ -5,7 +5,7 @@
 
 <div class="grid gap-4 p-10 auto-fill-15">
   {#each items as item, index}
-    <span class="max-w-sm" in:fade={{ delay: index * 30 }}>
+    <span class="max-w-sm" in:fade={{ delay: index * 10 }}>
       <slot {item} {index} />
     </span>
   {/each}
