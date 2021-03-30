@@ -45,7 +45,7 @@
   >
     <svelte:component this={currentTabComponent} bind:visible={open} />
   </div>
-  <div class="self-start overflow-hidden bg-white border divide-y rounded-r-md">
+  <div class="self-start overflow-hidden bg-white border divide-y rounded-r-md" class:shadow-md={!open}>
     {#each tabs as { icon, tooltip }, tabIndex}
       <button
         use:tippy={{ content: open && selectedTabIndex === tabIndex ? 'Close' : tooltip, placement: 'right' }}
