@@ -35,7 +35,7 @@
 
 <Doc path={documentPath} let:data={recipe} let:ref>
   <main class="flex flex-col min-h-screen">
-    <div class="flex items-baseline justify-center flex-1">
+    <div class="flex items-baseline justify-center">
       <h1 class="mx-2 text-3xl font-bold">{recipe.name}</h1>
       <button
         class="flex items-center justify-center rounded focus:outline-none ring-black py-0.5"
