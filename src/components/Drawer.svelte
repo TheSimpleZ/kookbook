@@ -2,7 +2,6 @@
   import Icon, { Plus, Filter, X } from 'svelte-hero-icons'
   import tippy from '@/libs/tippySvelte'
   import CreateNewRecipe from './drawerTabs/CreateNewRecipe.svelte'
-  import DefaultTab from './drawerTabs/DefaultTab.svelte'
   import SortFilter from './drawerTabs/SortFilter.svelte'
   import { fade } from 'svelte/transition'
 
