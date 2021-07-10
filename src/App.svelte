@@ -21,9 +21,4 @@
   :global(html, body, #routify-app) {
     @apply min-h-screen;
   }
-
-  /* :global(body, #routify-app) {
-    width: 100%;
-    height: 100%;
-  } */
 </style>
