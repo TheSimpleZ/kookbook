@@ -9,7 +9,7 @@
   let overlay = true
   let open = false
 
-  let selectedTab = DefaultTab
+  let selectedTab = null
 
   const tabs = [
     {
