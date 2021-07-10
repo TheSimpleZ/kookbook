@@ -27,13 +27,9 @@
       for="sort"
       use:tippy={{ content: sortByCheckbox ? 'Descending' : 'Ascending' }}
     >
-      {#if sortOrder == 'asc'}
-        <Icon src={SortAscending} size="24" class="icon" />
-      {:else}
-        <Icon src={SortDescending} size="24" class="icon" />
-      {/if}
+      <Icon src={sortOrder == 'asc' ? SortAscending : SortDescending} size="24" class="icon" />
     </label>
-    <input type="checkbox" name="sort" id="sort" class="hidden" />
+    <input type="checkbox" name="sort" id="sort" class="hidden" bind:checked={sortByCheckbox} />
   </div>
   <h4>Filter By</h4>
   <div class="flex">
