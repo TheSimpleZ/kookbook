@@ -9,6 +9,8 @@
   let open = false
 
   let selectedTab = null
+  export let sortOrder
+  export let orderByProperty
 
   const tabs = [
     {
@@ -41,7 +43,7 @@
     class="grid overflow-hidden transition-all bg-white border-t border-b max-w-0 rounded-br-md"
     class:max-w-full={open}
   >
-    <svelte:component this={selectedTab} bind:visible={open} />
+    <svelte:component this={selectedTab} bind:visible={open} bind:sortOrder bind:orderByProperty />
   </div>
   <div class="self-start overflow-hidden bg-white border divide-y rounded-r-md" class:shadow-md={!open}>
     {#each tabs as { component: currentTab, icon, tooltip }}

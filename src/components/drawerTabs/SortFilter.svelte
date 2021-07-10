@@ -7,6 +7,7 @@
   export let collections = []
 
   export let sortOrder
+  export let orderByProperty
 
   let sortByCheckbox = false
   $: sortOrder = sortByCheckbox ? 'desc' : 'asc'
@@ -16,6 +17,7 @@
   <h4>Sort By</h4>
   <div class="flex">
     <select
+      bind:value={orderByProperty}
       name="orderByProperty"
       class="self-end flex-1 text-sm text-gray-600 border-t-0 border-b border-l-0 border-r-0 border-gray-400 focus:border-b focus:border-gray-400 "
     >

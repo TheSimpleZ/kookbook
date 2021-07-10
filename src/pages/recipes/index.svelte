@@ -13,7 +13,7 @@
   import orderBy from 'lodash.orderby'
 
   const recipeSorters = {
-    name: (r) => r.name.toLowerCase(),
+    name: (r) => r.name?.toLowerCase(),
   }
 
   export let scoped
@@ -62,7 +62,7 @@
       showAddToBookDialog = true
     }}
   /> -->
-<Drawer />
+<Drawer bind:orderByProperty />
 <div class="ml-10">
   <Collection
     path="recipes"
