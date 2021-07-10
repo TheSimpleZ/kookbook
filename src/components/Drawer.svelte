@@ -8,9 +8,8 @@
 
   let overlay = true
   let open = false
-  let isClosed = false
 
-  let selectedTabIndex = -1
+  let selectedTab = DefaultTab
 
   const tabs = [
     {
@@ -25,7 +24,7 @@
     },
   ]
 
-  $: currentTabComponent = tabs[selectedTabIndex]?.component ?? DefaultTab
+  $: isActive = (tab) => tab === selectedTab
 </script>
 
 {#if open && overlay}
@@ -43,23 +42,23 @@
     class="grid overflow-hidden transition-all bg-white border-t border-b max-w-0 rounded-br-md"
     class:max-w-full={open}
   >
-    <svelte:component this={currentTabComponent} bind:visible={open} />
+    <svelte:component this={selectedTab} bind:visible={open} />
   </div>
   <div class="self-start overflow-hidden bg-white border divide-y rounded-r-md" class:shadow-md={!open}>
-    {#each tabs as { icon, tooltip }, tabIndex}
+    {#each tabs as { component: currentTab, icon, tooltip }}
       <button
-        use:tippy={{ content: open && selectedTabIndex === tabIndex ? 'Close' : tooltip, placement: 'right' }}
+        use:tippy={{ content: open && isActive(currentTab) ? 'Close' : tooltip, placement: 'right' }}
         class="flex items-center justify-center p-4 text-gray-600 focus:outline-none hover:text-black whitespace-nowrap hover:bg-indigo-50"
-        class:bg-indigo-100={selectedTabIndex === tabIndex && open}
+        class:bg-indigo-100={isActive(currentTab) && open}
         on:click={() => {
-          if (selectedTabIndex === tabIndex || !open) {
+          if (isActive(currentTab) || !open) {
             open = !open
           }
 
-          selectedTabIndex = tabIndex
+          selectedTab = currentTab
         }}
       >
-        <Icon src={open && selectedTabIndex === tabIndex ? X : icon} size="20" class="icon" />
+        <Icon src={open && isActive(currentTab) ? X : icon} size="20" class="icon" />
       </button>
     {/each}
   </div>
