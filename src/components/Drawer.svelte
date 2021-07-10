@@ -33,7 +33,7 @@
       open = false
     }}
     transition:fade={{ duration: 300 }}
-    class="absolute top-0 left-0 z-10 w-screen h-screen bg-gray-900 opacity-30"
+    class="fixed top-0 left-0 z-10 w-screen h-screen bg-gray-900 opacity-30"
   />
 {/if}
 
