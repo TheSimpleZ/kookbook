@@ -115,7 +115,7 @@
       <AddToBookDialog bind:visible={showAddToBookDialog} {user} {collections} recipes={selectedRecipes} />
 
       <div class="flex items-center justify-center flex-1" slot="loading">
-        <SpinLine size="80" color="#4B5563" unit="rem" duration="6s" />
+        <SpinLine size="40" color="#4B5563" unit="rem" duration="6s" />
       </div>
     </Collection>
   </Collection>
