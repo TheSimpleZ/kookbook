@@ -2,14 +2,13 @@
   import DialogBtn from '@/components/dialogs/DialogBtn.svelte'
   import { Collection, User } from 'sveltefire'
   import { firebase } from '@/libs/firebase'
-  import { send, receive } from '../../libs/crossfade'
 
   export let onFinished
 
   let value
 </script>
 
-<div class="flex flex-col w-full px-10 py-5 el" in:receive={{ key: 'tab' }} out:send={{ key: 'tab' }}>
+<div class="flex flex-col w-full px-10 py-5">
   <label for="recipe_name" class="block text-sm font-medium text-gray-700">Name</label>
   <input
     id="recipe_name"
@@ -39,10 +38,3 @@
     </Collection>
   </User>
 </div>
-
-<style>
-  .el {
-    grid-column: 1/2;
-    grid-row: 1/2;
-  }
-</style>

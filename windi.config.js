@@ -7,10 +7,7 @@ module.exports = {
     require('windicss/plugin/aspect-ratio'),
   ],
   theme: {},
-  variants: {
-    extend: {
-      opacity: ['disabled'],
-      borderStyle: ['focus'],
-    },
-  },
+  shortcuts: {
+    'btn': 'rounded-lg flex items-center justify-center focus:outline-none py-2',
+  }
 }

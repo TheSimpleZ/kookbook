@@ -3,15 +3,16 @@
   import tippy from '@/libs/tippySvelte'
   import { fade } from 'svelte/transition'
 
-  export let open = false
-
+  let open = false
   let selectedTab = null
   let contentHeight = null
   let buttonsHeight = null
 
   function closeDrawer() {
     open = false
-    selectedTab = null
+    setTimeout(() => {
+      selectedTab = null
+    }, 300)
   }
 
   export let tabs
@@ -22,25 +23,23 @@
 
 {#if open}
   <div
-    on:click={() => {
-      open = false
-    }}
+    on:click={closeDrawer}
     transition:fade={{ duration: 300 }}
     class="fixed top-0 left-0 z-10 w-screen h-screen bg-gray-900 opacity-30"
   />
 {/if}
 
-<div class="fixed z-10 flex transition-all top-40 rounded-r-md">
+<div class="fixed z-10 flex top-40 rounded-r-md">
   <div
-    class="grid overflow-hidden transition-all bg-white border-t border-b max-w-0"
-    class:max-w-full={open}
+    class="grid overflow-hidden transition-all duration-300 bg-white border-t border-b w-0"
+    class:w-90={open}
     bind:offsetHeight={contentHeight}
     class:rounded-br-md={contentHeight > buttonsHeight}
   >
     <slot {selectedTab} {closeDrawer} />
   </div>
   <div
-    class="self-start overflow-hidden bg-white border divide-y rounded-r-md"
+    class="self-start overflow-hidden bg-white border divide-y rounded-r-md transition-all"
     class:shadow-md={!open}
     bind:offsetHeight={buttonsHeight}
   >

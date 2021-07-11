@@ -1,7 +1,6 @@
 <script>
   import tippy from '@/libs/tippySvelte'
   import Icon, { SortAscending, SortDescending } from 'svelte-hero-icons'
-  import { send, receive } from '../../libs/crossfade'
 
   export let selectedCollection
   export let collections = []
@@ -13,7 +12,7 @@
   $: sortOrder = sortByCheckbox ? 'desc' : 'asc'
 </script>
 
-<div class="flex flex-col p-10 prose el" in:receive={{ key: 'tab' }} out:send={{ key: 'tab' }}>
+<div class="flex flex-col p-10 prose">
   <h4>Sort By</h4>
   <div class="flex">
     <select
@@ -47,10 +46,3 @@
     </select>
   </div>
 </div>
-
-<style>
-  .el {
-    grid-column: 1/2;
-    grid-row: 1/2;
-  }
-</style>
