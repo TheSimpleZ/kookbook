@@ -40,6 +40,7 @@
       class="self-end flex-1 text-sm text-gray-600 border-t-0 border-b border-l-0 border-r-0 border-gray-400 focus:border-b focus:border-gray-400 "
     >
       <option selected value> All </option>
+      <option selected value="None"> No collection </option>
       {#each collections as collection}
         <option value={collection}>{collection}</option>
       {/each}

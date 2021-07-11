@@ -26,7 +26,6 @@
   let drawerIsOpen = false
 
   let showAddToBookDialog = false
-  let showNameDialog = false
   let orderByProperty = 'createdAt'
   let selectedRecipeIds = new Set()
   let sortOrder
@@ -34,7 +33,11 @@
   let selectedCollection
   $: orderedRecipes = orderBy(unorderedRecipes, [recipeSorters[orderByProperty] || orderByProperty], sortOrder)
   $: recipes = selectedCollection
-    ? orderedRecipes.filter((r) => r.collections?.includes(selectedCollection))
+    ? orderedRecipes.filter(
+        (r) =>
+          (selectedCollection === 'None' && (!r.collections || r.collections.length === 0)) ||
+          r.collections?.includes(selectedCollection)
+      )
     : orderedRecipes
   $: collections = recipes.filter((r) => r.collections).flatMap((r) => r.collections)
   $: selectedRecipes = recipes.filter((r) => selectedRecipeIds.has(r.id))
