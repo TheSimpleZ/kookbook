@@ -6,6 +6,8 @@
   export let open = false
 
   let selectedTab = null
+  let contentHeight = null
+  let buttonsHeight = null
 
   function closeDrawer() {
     open = false
@@ -30,12 +32,18 @@
 
 <div class="fixed z-10 flex transition-all top-40 rounded-r-md">
   <div
-    class="grid overflow-hidden transition-all bg-white border-t border-b max-w-0 rounded-br-md"
+    class="grid overflow-hidden transition-all bg-white border-t border-b max-w-0"
     class:max-w-full={open}
+    bind:offsetHeight={contentHeight}
+    class:rounded-br-md={contentHeight > buttonsHeight}
   >
     <slot {selectedTab} {closeDrawer} />
   </div>
-  <div class="self-start overflow-hidden bg-white border divide-y rounded-r-md" class:shadow-md={!open}>
+  <div
+    class="self-start overflow-hidden bg-white border divide-y rounded-r-md"
+    class:shadow-md={!open}
+    bind:offsetHeight={buttonsHeight}
+  >
     {#each visibleTabs as tab}
       {#if isActive(tab.component)}
         <button
