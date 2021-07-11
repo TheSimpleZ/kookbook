@@ -1,5 +1,4 @@
 <script>
-  import DialogBtn from '@/components/dialogs/DialogBtn.svelte'
   import { Collection, User } from 'sveltefire'
   import { firebase } from '@/libs/firebase'
 
@@ -19,8 +18,8 @@
   />
   <User persist={localStorage} let:user let:auth>
     <Collection path="recipes" query={(ref) => ref.where(`createdBy`, '==', user.uid)} let:ref>
-      <DialogBtn
-        className="text-indigo-500 mt-5 py-2 mx-10"
+      <button
+        class="btn text-indigo-500 mt-5 py-2 mx-10 hover:bg-gray-100"
         on:click={() => {
           const currentDateTime = firebase.firestore.FieldValue.serverTimestamp()
           ref.add({
@@ -34,7 +33,7 @@
         }}
       >
         Create
-      </DialogBtn>
+      </button>
     </Collection>
   </User>
 </div>

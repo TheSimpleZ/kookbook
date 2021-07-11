@@ -31,8 +31,8 @@
 
 <div class="fixed z-10 flex top-40 rounded-r-md">
   <div
-    class="grid overflow-hidden transition-all duration-300 bg-white border-t border-b w-0"
-    class:w-90={open}
+    class="grid overflow-hidden transition-all duration-300 bg-white border-t border-b w-90 -ml-90"
+    class:!ml-0={open}
     bind:offsetHeight={contentHeight}
     class:rounded-br-md={contentHeight > buttonsHeight}
   >

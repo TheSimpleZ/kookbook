@@ -32,14 +32,14 @@
     </label>
     <input type="checkbox" name="sort" id="sort" class="hidden" bind:checked={sortByCheckbox} />
   </div>
-  <h4>Filter By</h4>
+  <h4>Collection</h4>
   <div class="flex">
     <select
       bind:value={selectedCollection}
       name="bookFilter"
       class="self-end flex-1 text-sm text-gray-600 border-t-0 border-b border-l-0 border-r-0 border-gray-400 focus:border-b focus:border-gray-400 "
     >
-      <option selected value> All books </option>
+      <option selected value> All </option>
       {#each collections as collection}
         <option value={collection}>{collection}</option>
       {/each}

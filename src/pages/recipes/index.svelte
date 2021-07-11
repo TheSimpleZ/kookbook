@@ -10,11 +10,11 @@
   import AddToBookDialog from '@/components/dialogs/AddToBookDialog.svelte'
   import { SpinLine } from 'svelte-loading-spinners'
   import orderBy from 'lodash.orderby'
-  import { Plus, Filter, Trash } from 'svelte-hero-icons'
+  import { Plus, Filter, Trash, FolderAdd } from 'svelte-hero-icons'
   import CreateNewRecipe from '@/components/drawerTabs/CreateNewRecipe.svelte'
   import DeleteRecipe from '@/components/drawerTabs/DeleteRecipe.svelte'
   import SortFilter from '@/components/drawerTabs/SortFilter.svelte'
-  import { slide } from 'svelte/transition'
+  import AddToCollection from '@/components/drawerTabs/AddToCollection.svelte'
 
   const recipeSorters = {
     name: (r) => r.name?.toLowerCase(),
@@ -25,7 +25,6 @@
 
   let drawerIsOpen = false
 
-  let showShareDialog = false
   let showAddToBookDialog = false
   let showNameDialog = false
   let orderByProperty = 'createdAt'
@@ -40,6 +39,7 @@
   $: collections = recipes.filter((r) => r.collections).flatMap((r) => r.collections)
   $: selectedRecipes = recipes.filter((r) => selectedRecipeIds.has(r.id))
   $: selectMode = selectedRecipeIds.size > 0
+  let showShareDialog = false
 
   function gotoRecipe(id) {
     $goto('./:id', { id })
@@ -56,6 +56,16 @@
       component: SortFilter,
       tooltip: 'Filter & sort',
       props: {
+        collections,
+      },
+    },
+    {
+      icon: FolderAdd,
+      component: AddToCollection,
+      showIf: selectedRecipes.length > 0,
+      tooltip: 'Add to collection',
+      props: {
+        selectedRecipes,
         collections,
       },
     },
