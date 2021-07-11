@@ -11,6 +11,10 @@
   import AddToBookDialog from '@/components/dialogs/AddToBookDialog.svelte'
   import { SpinLine } from 'svelte-loading-spinners'
   import orderBy from 'lodash.orderby'
+  import { Plus, Filter, Trash } from 'svelte-hero-icons'
+  import CreateNewRecipe from '@/components/drawerTabs/CreateNewRecipe.svelte'
+  import DeleteRecipe from '@/components/drawerTabs/DeleteRecipe.svelte'
+  import SortFilter from '@/components/drawerTabs/SortFilter.svelte'
 
   const recipeSorters = {
     name: (r) => r.name?.toLowerCase(),
@@ -18,6 +22,8 @@
 
   export let scoped
   $: ({ user } = scoped)
+
+  let drawerIsOpen = false
 
   let showShareDialog = false
   let showAddToBookDialog = false
@@ -38,6 +44,31 @@
   function gotoRecipe(id) {
     $goto('./:id', { id })
   }
+
+  $: tabs = [
+    {
+      icon: Plus,
+      component: CreateNewRecipe,
+      tooltip: 'New recipe',
+    },
+    {
+      icon: Filter,
+      component: SortFilter,
+      tooltip: 'Filter & sort',
+      props: {
+        collections,
+      },
+    },
+    {
+      icon: Trash,
+      component: DeleteRecipe,
+      showIf: selectedRecipes.length > 0,
+      tooltip: 'Delete',
+      props: {
+        selectedRecipes,
+      },
+    },
+  ]
 </script>
 
 <!-- <Toolbar
@@ -62,7 +93,18 @@
       showAddToBookDialog = true
     }}
   /> -->
-<Drawer bind:orderByProperty />
+<Drawer {tabs} let:selectedTab bind:open={drawerIsOpen} let:closeDrawer>
+  <svelte:component
+    this={selectedTab?.component}
+    bind:sortOrder
+    bind:orderByProperty
+    bind:selectedCollection
+    {...selectedTab?.props}
+    onFinished={() => {
+      closeDrawer()
+    }}
+  />
+</Drawer>
 <div class="ml-10">
   <Collection
     path="recipes"
@@ -80,6 +122,7 @@
       <GridList items={recipes} let:item>
         <Card
           bind:selectMode
+          selected={selectedRecipeIds.has(item.id)}
           on:change={({ detail: selected }) => {
             if (selected) {
               selectedRecipeIds.add(item.id)

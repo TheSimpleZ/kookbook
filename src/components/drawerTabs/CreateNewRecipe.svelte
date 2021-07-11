@@ -4,7 +4,7 @@
   import { firebase } from '@/libs/firebase'
   import { send, receive } from '../../libs/crossfade'
 
-  export let visible
+  export let onFinished
 
   let value
 </script>
@@ -31,7 +31,7 @@
             name: value,
           })
           value = ''
-          visible = false
+          onFinished()
         }}
       >
         Create
