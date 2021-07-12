@@ -3,33 +3,36 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     function isSignedIn() {
-      return (request.auth.uid != null)
+      return request.auth != null;
     }
 
-    function isCreatedByUserRead() {
-      return isSignedIn() && resource.data.createdBy == request.auth.uid;
+    function getRole(rsc) {
+      // Read from the "roles" map in the resource (rsc).
+      return rsc.data.roles[request.auth.uid];
     }
 
-    function isReader() {
-      return isSignedIn() && request.auth.uid in resource.data.readers || isCreatedByUserRead();
+    function isOneOfRoles(rsc, array) {
+      // Determine if the user is one of an array of roles
+      return isSignedIn() && (getRole(rsc) in array);
     }
 
-    function isCreatedByUserWrite() {
-      return isSignedIn() && request.resource.data.createdBy == request.auth.uid;
+    function isValidRecipe() {
+      // Valid if story does not exist and the new story has the correct owner.
+      return resource == null && isOneOfRoles(request.resource, ['owner']);
     }
 
     match /recipes/{recipe} {
-      allow delete: if isCreatedByUserRead();
-      allow update: if isCreatedByUserRead();
-      allow create: if isCreatedByUserWrite();
-      allow read: if isReader();
+      allow delete: if isOneOfRoles(resource, ['owner']);
+      allow update: if isOneOfRoles(resource, ['owner', 'writer']);
+      allow create: if isValidRecipe();
+      allow read: if isOneOfRoles(resource, ['owner', 'reader', 'writer']);
     }
 
     match /books/{book} {
-      allow delete: if isCreatedByUserRead();
-      allow update: if isCreatedByUserRead();
-      allow create: if isCreatedByUserWrite();
-      allow read: if isReader();
+      allow delete: if isOneOfRoles(resource, ['owner']);
+      allow update: if isOneOfRoles(resource, ['owner', 'writer']);
+      allow create: if isValidRecipe();
+      allow read: if isOneOfRoles(resource, ['owner', 'reader', 'writer']);
     }
 
     match /users/{userId} {

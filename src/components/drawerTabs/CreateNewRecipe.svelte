@@ -1,6 +1,7 @@
 <script>
   import { Collection, User } from 'sveltefire'
   import { firebase } from '@/libs/firebase'
+  import { isOwner } from '@/libs/firestoreQueries'
 
   export let onFinished
 
@@ -17,7 +18,7 @@
     class="mt-0 block w-60 px-0.5 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black"
   />
   <User persist={localStorage} let:user let:auth>
-    <Collection path="recipes" query={(ref) => ref.where(`createdBy`, '==', user.uid)} let:ref>
+    <Collection path="recipes" query={isOwner(user)} let:ref>
       <button
         class="btn text-indigo-500 mt-5 py-2 mx-10 hover:bg-gray-100"
         on:click={() => {
@@ -27,6 +28,9 @@
             updatedAt: currentDateTime,
             createdBy: user.uid,
             name: value,
+            roles: {
+              [user.uid]: 'owner',
+            },
           })
           value = ''
           onFinished()
