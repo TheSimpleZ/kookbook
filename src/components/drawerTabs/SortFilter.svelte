@@ -2,8 +2,8 @@
   import tippy from '@/libs/tippySvelte'
   import Icon, { SortAscending, SortDescending } from 'svelte-hero-icons'
 
-  export let selectedCollection
-  export let collections = []
+  export let selectedBook
+  export let books = []
 
   export let sortOrder
   export let orderByProperty
@@ -32,16 +32,16 @@
     </label>
     <input type="checkbox" name="sort" id="sort" class="hidden" bind:checked={sortByCheckbox} />
   </div>
-  <h4>Collection</h4>
+  <h4>Book</h4>
   <div class="flex">
     <select
-      bind:value={selectedCollection}
+      bind:value={selectedBook}
       name="bookFilter"
       class="self-end flex-1 text-sm text-gray-600 border-t-0 border-b border-l-0 border-r-0 border-gray-400 focus:border-b focus:border-gray-400 "
     >
       <option selected value> All </option>
       <option selected value="None"> No collection </option>
-      {#each collections as collection}
+      {#each books as collection}
         <option value={collection}>{collection}</option>
       {/each}
     </select>

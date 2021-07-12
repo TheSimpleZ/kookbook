@@ -10,7 +10,7 @@
   function addRecipesToCollection() {
     selectedRecipes.forEach((r) => {
       r.ref.update({
-        collections: firebase.firestore.FieldValue.arrayUnion(value),
+        books: firebase.firestore.FieldValue.arrayUnion(value),
       })
     })
   }

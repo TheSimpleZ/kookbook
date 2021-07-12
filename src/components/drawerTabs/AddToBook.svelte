@@ -1,16 +1,18 @@
 <script>
   import { firebase } from '@/libs/firebase'
+  import { Collection, User } from 'sveltefire'
+  import { canWrite } from '@/libs/firestoreQueries'
 
-  export let collections = []
+  export let books = []
   export let selectedRecipes
   export let onFinished
 
   let value = ''
 
-  function addRecipesToCollection() {
+  function addRecipesToBook() {
     selectedRecipes.forEach((r) => {
       r.ref.update({
-        collections: firebase.firestore.FieldValue.arrayUnion(value),
+        books: firebase.firestore.FieldValue.arrayUnion(value),
       })
     })
   }
@@ -26,22 +28,26 @@
       bind:value
       class="mt-0 block w-60 px-0.5 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black"
     />
-    {#if collections.length > 0}
+    {#if books.length > 0}
       <p class="block mt-5 text-sm font-medium text-gray-700">Or pick one from the list below</p>
       <ul class="p-5">
-        {#each collections as collection}
+        {#each books as collection}
           <li>{collection}</li>
         {/each}
       </ul>
     {/if}
   </div>
-  <button
-    class="btn text-indigo-500 mt-5 py-2 mx-10 hover:bg-gray-100"
-    on:click={() => {
-      addRecipesToCollection()
-      onFinished()
-    }}
-  >
-    Add
-  </button>
+  <User persist={localStorage} let:user let:auth>
+    <Collection path="books" query={canWrite(user)} let:ref>
+      <button
+        class="btn text-indigo-500 mt-5 py-2 mx-10 hover:bg-gray-100"
+        on:click={() => {
+          addRecipesToBook()
+          onFinished()
+        }}
+      >
+        Add
+      </button>
+    </Collection>
+  </User>
 </div>

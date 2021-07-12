@@ -14,7 +14,7 @@
   import CreateNewRecipe from '@/components/drawerTabs/CreateNewRecipe.svelte'
   import DeleteRecipe from '@/components/drawerTabs/DeleteRecipe.svelte'
   import SortFilter from '@/components/drawerTabs/SortFilter.svelte'
-  import AddToCollection from '@/components/drawerTabs/AddToCollection.svelte'
+  import AddToBook from '@/components/drawerTabs/AddToBook.svelte'
   import ShareRecipe from '@/components/drawerTabs/ShareRecipe.svelte'
   import { canRead } from '@/libs/firestoreQueries'
 
@@ -32,16 +32,14 @@
   let selectedRecipeIds = new Set()
   let sortOrder
   let unorderedRecipes
-  let selectedCollection
+  let selectedBook
   $: orderedRecipes = orderBy(unorderedRecipes, [recipeSorters[orderByProperty] || orderByProperty], sortOrder)
-  $: recipes = selectedCollection
+  $: recipes = selectedBook
     ? orderedRecipes.filter(
-        (r) =>
-          (selectedCollection === 'None' && (!r.collections || r.collections.length === 0)) ||
-          r.collections?.includes(selectedCollection)
+        (r) => (selectedBook === 'None' && (!r.books || r.books.length === 0)) || r.books?.includes(selectedBook)
       )
     : orderedRecipes
-  $: collections = recipes.filter((r) => r.collections).flatMap((r) => r.collections)
+  $: books = recipes.filter((r) => r.books).flatMap((r) => r.books)
   $: selectedRecipes = recipes.filter((r) => selectedRecipeIds.has(r.id))
   $: selectMode = selectedRecipeIds.size > 0
   let showShareDialog = false
@@ -61,7 +59,7 @@
       component: SortFilter,
       tooltip: 'Filter & sort',
       props: {
-        collections,
+        books,
       },
     },
     {
@@ -75,12 +73,12 @@
     },
     {
       icon: FolderAdd,
-      component: AddToCollection,
+      component: AddToBook,
       showIf: selectedRecipes.length > 0,
       tooltip: 'Add to collection',
       props: {
         selectedRecipes,
-        collections,
+        books,
       },
     },
     {
@@ -122,7 +120,7 @@
     this={selectedTab?.component}
     bind:sortOrder
     bind:orderByProperty
-    bind:selectedCollection
+    bind:selectedBook
     {...selectedTab?.props}
     onFinished={() => {
       closeDrawer()
@@ -158,7 +156,7 @@
             {item.name}
           </h3>
           <p class="text-xs text-gray-500 line-clamp-1">
-            <Doc path={`users/${item.createdBy}`} let:data={owner}>
+            <Doc path={`users/${Object.keys(item.roles).find((key) => item.roles[key] === 'owner')}`} let:data={owner}>
               {owner.displayName} •
               <span
                 use:tippy={{
@@ -173,9 +171,6 @@
         </div>
       </Card>
     </GridList>
-
-    <!-- <ShareDialog bind:visible={showShareDialog} recipe={selectedRecipes[0]} />
-    <AddToBookDialog bind:visible={showAddToBookDialog} {user} {collections} recipes={selectedRecipes} /> -->
 
     <div class="flex items-center justify-center flex-1" slot="loading">
       <SpinLine size="40" color="#4B5563" unit="rem" duration="6s" />
