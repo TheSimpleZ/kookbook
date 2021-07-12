@@ -27,6 +27,9 @@
             updatedAt: currentDateTime,
             createdBy: user.uid,
             name: value,
+            roles: {
+              [user.uid]: 'owner',
+            },
           })
           value = ''
           onFinished()

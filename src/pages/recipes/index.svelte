@@ -129,16 +129,11 @@
   />
 </Drawer>
 <div class="ml-10">
-  <Collection
-    path="recipes"
-    query={(ref) => ref.where(`readers`, 'array-contains', user.uid)}
-    let:data={readableRecipes}
-  >
     <Collection
       path="recipes"
-      query={(ref) => ref.where(`createdBy`, '==', user.uid)}
+      query={(ref) => ref.where(`roles.${user.uid}`, '==', 'owner')}
       on:data={(e) => {
-        unorderedRecipes = [...e.detail.data, ...readableRecipes]
+        unorderedRecipes = e.detail.data
       }}
       let:ref
     >
