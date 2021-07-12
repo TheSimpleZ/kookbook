@@ -16,6 +16,7 @@
   import SortFilter from '@/components/drawerTabs/SortFilter.svelte'
   import AddToCollection from '@/components/drawerTabs/AddToCollection.svelte'
   import ShareRecipe from '@/components/drawerTabs/ShareRecipe.svelte'
+  import { canRead } from '@/libs/firestoreQueries'
 
   const recipeSorters = {
     name: (r) => r.name?.toLowerCase(),
@@ -129,55 +130,55 @@
   />
 </Drawer>
 <div class="ml-10">
-    <Collection
-      path="recipes"
-      query={(ref) => ref.where(`roles.${user.uid}`, '==', 'owner')}
-      on:data={(e) => {
-        unorderedRecipes = e.detail.data
-      }}
-      let:ref
-    >
-      <GridList items={recipes} let:item>
-        <Card
-          bind:selectMode
-          selected={selectedRecipeIds.has(item.id)}
-          on:change={({ detail: selected }) => {
-            if (selected) {
-              selectedRecipeIds.add(item.id)
-            } else {
-              selectedRecipeIds.delete(item.id)
-            }
-            selectedRecipeIds = selectedRecipeIds
-          }}
-          on:click={() => gotoRecipe(item.id)}
-        >
-          <div class="flex flex-col p-3">
-            <h3 class="text-sm truncate-2nd">
-              {item.name}
-            </h3>
-            <p class="text-xs text-gray-500 line-clamp-1">
-              <Doc path={`users/${item.createdBy}`} let:data={owner}>
-                {owner.displayName} •
-                <span
-                  use:tippy={{
-                    content: item.updatedAt?.toDate().toLocaleString() || '',
-                    placement: 'bottom',
-                  }}
-                >
-                  {item.updatedAt && timeAgo.format(item.updatedAt.toDate())}
-                </span>
-              </Doc>
-            </p>
-          </div>
-        </Card>
-      </GridList>
+  <Collection
+    path="recipes"
+    query={canRead(user)}
+    on:data={(e) => {
+      unorderedRecipes = e.detail.data
+    }}
+    let:ref
+    log={true}
+  >
+    <GridList items={recipes} let:item>
+      <Card
+        bind:selectMode
+        selected={selectedRecipeIds.has(item.id)}
+        on:change={({ detail: selected }) => {
+          if (selected) {
+            selectedRecipeIds.add(item.id)
+          } else {
+            selectedRecipeIds.delete(item.id)
+          }
+          selectedRecipeIds = selectedRecipeIds
+        }}
+        on:click={() => gotoRecipe(item.id)}
+      >
+        <div class="flex flex-col p-3">
+          <h3 class="text-sm truncate-2nd">
+            {item.name}
+          </h3>
+          <p class="text-xs text-gray-500 line-clamp-1">
+            <Doc path={`users/${item.createdBy}`} let:data={owner}>
+              {owner.displayName} •
+              <span
+                use:tippy={{
+                  content: item.updatedAt?.toDate().toLocaleString() || '',
+                  placement: 'bottom',
+                }}
+              >
+                {item.updatedAt && timeAgo.format(item.updatedAt.toDate())}
+              </span>
+            </Doc>
+          </p>
+        </div>
+      </Card>
+    </GridList>
 
-      <ShareDialog bind:visible={showShareDialog} recipe={selectedRecipes[0]} />
-      <AddToBookDialog bind:visible={showAddToBookDialog} {user} {collections} recipes={selectedRecipes} />
+    <!-- <ShareDialog bind:visible={showShareDialog} recipe={selectedRecipes[0]} />
+    <AddToBookDialog bind:visible={showAddToBookDialog} {user} {collections} recipes={selectedRecipes} /> -->
 
-      <div class="flex items-center justify-center flex-1" slot="loading">
-        <SpinLine size="40" color="#4B5563" unit="rem" duration="6s" />
-      </div>
-    </Collection>
+    <div class="flex items-center justify-center flex-1" slot="loading">
+      <SpinLine size="40" color="#4B5563" unit="rem" duration="6s" />
+    </div>
   </Collection>
 </div>

@@ -16,16 +16,24 @@ service cloud.firestore {
       return isSignedIn() && (getRole(rsc) in array);
     }
 
-    match /recipes/{recipe} {
-      allow read, write: if isOneOfRoles(resource, ['owner']);;
+    function isValidRecipe() {
+      // Valid if story does not exist and the new story has the correct owner.
+      return resource == null && isOneOfRoles(request.resource, ['owner']);
     }
 
-    // match /books/{book} {
-    //   allow delete: if isCreatedByUserRead();
-    //   allow update: if isCreatedByUserRead();
-    //   allow create: if isCreatedByUserWrite();
-    //   allow read: if isReader();
-    // }
+    match /recipes/{recipe} {
+      allow delete: if isOneOfRoles(resource, ['owner']);
+      allow update: if isOneOfRoles(resource, ['owner', 'writer']);
+      allow create: if isValidRecipe();
+      allow read: if isOneOfRoles(resource, ['owner', 'reader', 'writer']);
+    }
+
+    match /books/{book} {
+      allow delete: if isOneOfRoles(resource, ['owner']);
+      allow update: if isOneOfRoles(resource, ['owner', 'writer']);
+      allow create: if isValidRecipe();
+      allow read: if isOneOfRoles(resource, ['owner', 'reader', 'writer']);
+    }
 
     match /users/{userId} {
       allow read, write: if isSignedIn();
