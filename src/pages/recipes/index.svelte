@@ -10,11 +10,12 @@
   import AddToBookDialog from '@/components/dialogs/AddToBookDialog.svelte'
   import { SpinLine } from 'svelte-loading-spinners'
   import orderBy from 'lodash.orderby'
-  import { Plus, Filter, Trash, FolderAdd } from 'svelte-hero-icons'
+  import { Plus, Filter, Trash, FolderAdd, Share } from 'svelte-hero-icons'
   import CreateNewRecipe from '@/components/drawerTabs/CreateNewRecipe.svelte'
   import DeleteRecipe from '@/components/drawerTabs/DeleteRecipe.svelte'
   import SortFilter from '@/components/drawerTabs/SortFilter.svelte'
   import AddToCollection from '@/components/drawerTabs/AddToCollection.svelte'
+  import ShareRecipe from '@/components/drawerTabs/ShareRecipe.svelte'
 
   const recipeSorters = {
     name: (r) => r.name?.toLowerCase(),
@@ -60,6 +61,15 @@
       tooltip: 'Filter & sort',
       props: {
         collections,
+      },
+    },
+    {
+      icon: Share,
+      component: ShareRecipe,
+      showIf: selectedRecipes.length > 0,
+      tooltip: 'Share recipes',
+      props: {
+        selectedRecipes,
       },
     },
     {
