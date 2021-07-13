@@ -6,8 +6,6 @@
   import tippy from 'tippy.js'
   import { goto } from '@roxi/routify'
   import Drawer from '@/components/Drawer.svelte'
-  import ShareDialog from '@/components/dialogs/ShareDialog.svelte'
-  import AddToBookDialog from '@/components/dialogs/AddToBookDialog.svelte'
   import { SpinLine } from 'svelte-loading-spinners'
   import orderBy from 'lodash.orderby'
   import { Plus, Filter, Trash, FolderAdd, Share } from 'svelte-hero-icons'
@@ -93,28 +91,6 @@
   ]
 </script>
 
-<!-- <Toolbar
-    {selectMode}
-    {user}
-    {collections}
-    multiSelect={Object.keys(selectedRecipes).length > 1}
-    bind:sortOrder
-    bind:orderByProperty
-    bind:selectedCollection
-    on:newRecipeClick={() => {
-      showNameDialog = true
-    }}
-    on:deleteRecipeClick={() => Object.values(selectedRecipes).forEach((r) => r.ref.delete())}
-    on:unselectAll={() => {
-      selectedRecipes = {}
-    }}
-    on:shareClick={() => {
-      showShareDialog = true
-    }}
-    on:addToBook={() => {
-      showAddToBookDialog = true
-    }}
-  /> -->
 <Drawer {tabs} let:selectedTab bind:open={drawerIsOpen} let:closeDrawer>
   <svelte:component
     this={selectedTab?.component}
