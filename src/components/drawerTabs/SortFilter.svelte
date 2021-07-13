@@ -1,12 +1,15 @@
 <script>
   import tippy from '@/libs/tippySvelte'
   import Icon, { SortAscending, SortDescending } from 'svelte-hero-icons'
+  import { Collection, User } from 'sveltefire'
+  import { canRead } from '@/libs/firestoreQueries'
 
   export let selectedBook
-  export let books = []
 
   export let sortOrder
   export let orderByProperty
+
+  let books = []
 
   let sortByCheckbox = false
   $: sortOrder = sortByCheckbox ? 'desc' : 'asc'
@@ -18,7 +21,7 @@
     <select
       bind:value={orderByProperty}
       name="orderByProperty"
-      class="self-end flex-1 text-sm text-gray-600 border-t-0 border-b border-l-0 border-r-0 border-gray-400 focus:border-b focus:border-gray-400 "
+      class="self-end flex-1 text-sm text-gray-600 border-t-0 border-b border-l-0 border-r-0 border-gray-400 focus:border-b focus:border-gray-400"
     >
       <option value="createdAt" selected>Created at</option>
       <option value="name">Alphabetically</option>
@@ -34,16 +37,28 @@
   </div>
   <h4>Book</h4>
   <div class="flex">
-    <select
-      bind:value={selectedBook}
-      name="bookFilter"
-      class="self-end flex-1 text-sm text-gray-600 border-t-0 border-b border-l-0 border-r-0 border-gray-400 focus:border-b focus:border-gray-400 "
-    >
-      <option selected value> All </option>
-      <option selected value="None"> No collection </option>
-      {#each books as collection}
-        <option value={collection}>{collection}</option>
-      {/each}
-    </select>
+    <User persist={localStorage} let:user>
+      <Collection
+        path="books"
+        query={canRead(user)}
+        on:data={(e) => {
+          // let:data caused issues with the each block
+          // hence this syntax
+          books = e.detail.data || []
+        }}
+      >
+        <select
+          bind:value={selectedBook}
+          name="bookFilter"
+          class="self-end flex-1 text-sm text-gray-600 border-t-0 border-b border-l-0 border-r-0 border-gray-400 focus:border-b focus:border-gray-400"
+        >
+          <option selected value>All</option>
+          <option selected value={null}>Recipes not in a book</option>
+          {#each books as book}
+            <option value={book}>{book.name}</option>
+          {/each}
+        </select>
+      </Collection>
+    </User>
   </div>
 </div>

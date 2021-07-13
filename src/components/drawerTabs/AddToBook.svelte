@@ -20,7 +20,7 @@
 
 <div class="flex flex-col justify-between w-full px-10 py-5">
   <div class="flex flex-col p-5">
-    <label for="recipe_name" class="block text-sm font-medium text-gray-700"> Choose a new book name </label>
+    <label for="recipe_name" class="block text-sm font-medium text-gray-700">Choose a new book name</label>
     <input
       id="recipe_name"
       type="text"
@@ -37,7 +37,16 @@
       </ul>
     {/if}
   </div>
-  <User persist={localStorage} let:user let:auth>
+  <User persist={localStorage} let:user>
+    <button
+      class="btn text-indigo-500 mt-5 py-2 mx-10 hover:bg-gray-100"
+      on:click={() => {
+        addRecipesToBook()
+        onFinished()
+      }}
+    >
+      Add
+    </button>
     <Collection path="books" query={canWrite(user)} let:ref>
       <button
         class="btn text-indigo-500 mt-5 py-2 mx-10 hover:bg-gray-100"

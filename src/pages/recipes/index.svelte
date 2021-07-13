@@ -27,22 +27,22 @@
 
   let drawerIsOpen = false
 
-  let showAddToBookDialog = false
   let orderByProperty = 'createdAt'
   let selectedRecipeIds = new Set()
-  let sortOrder
-  let unorderedRecipes
+  let sortOrder = 'desc'
+  let unorderedRecipes = []
   let selectedBook
   $: orderedRecipes = orderBy(unorderedRecipes, [recipeSorters[orderByProperty] || orderByProperty], sortOrder)
   $: recipes = selectedBook
     ? orderedRecipes.filter(
-        (r) => (selectedBook === 'None' && (!r.books || r.books.length === 0)) || r.books?.includes(selectedBook)
+        (r) =>
+          (selectedBook === null && (!r.books || r.books.length === 0)) ||
+          r.books?.map((b) => b.id)?.includes(selectedBook.ref.id)
       )
     : orderedRecipes
   $: books = recipes.filter((r) => r.books).flatMap((r) => r.books)
   $: selectedRecipes = recipes.filter((r) => selectedRecipeIds.has(r.id))
   $: selectMode = selectedRecipeIds.size > 0
-  let showShareDialog = false
 
   function gotoRecipe(id) {
     $goto('./:id', { id })
@@ -135,7 +135,6 @@
       unorderedRecipes = e.detail.data
     }}
     let:ref
-    log={true}
   >
     <GridList items={recipes} let:item>
       <Card
